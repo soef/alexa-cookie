@@ -1,6 +1,6 @@
 {
   "name": "alexa-cookie",
-  "version": "0.0.20",
+  "version": "0.1.0",
   "description": "Generate Cookie and CSRF for Alexa Remote",
   "author": {
     "name": "soef",
@@ -10,6 +10,10 @@
     {
       "name": "soef",
       "email": "soef@gmx.net"
+  },
+    {
+      "name": "Apollon77",
+      "email": "ingo@fischer-ka.de"
     }
   ],
   "homepage": "https://github.com/soef/alexa-cookie",

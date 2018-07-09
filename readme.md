@@ -1,4 +1,4 @@
-## alexa-cookie 
+# alexa-cookie
 
 Library to generate a cookie including a csrf for alexa remote
 
@@ -8,17 +8,24 @@ Library to generate a cookie including a csrf for alexa remote
 -->
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/soef/alexa-remote/blob/master/LICENSE)
 
-####Example:
+## Example:
 ```javascript 1.8
-let alexaCookie = require('alexa-cookie');
+const alexaCookie = require('alexa-cookie');
 
-alexaCookie('amazon-email', 'password', function (err, result) {
+const options = { // options is optional at all
+    logger: console.log,   // optional: Logger instance to get (debug) logs
+    amazonPage: '...',     // optional: possible to use with different countries, default is 'amazon.de'
+    acceptLanguage: '...', // optional: webpage language, should match to amazon-Page, default is 'de-DE'
+    userAgent: '...'       // optional: own userAgent to use for all request, overwrites default one
+}
+
+alexaCookie('amazon-email', 'password', options, function (err, result) {
     console.log('cookie: ' + result.cookie);
     console.log('csrf: '   + result.csrf);
 });
 
 ````
 
-####Info: 
-Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/amazon-alexa-hort-auf-die-shell-echo.html) (PLAIN shell)<br>
+## Info: 
+Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/amazon-alexa-hort-auf-die-shell-echo.html) (PLAIN shell) and [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control)
 Thank you for that work.
