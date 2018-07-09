@@ -11,10 +11,9 @@
  * https://github.com/thorsten-gehrig/alexa-remote-control
  */
 
-let https = require('https');
-let querystring = require('querystring');
-let url = require('url');
-
+const https = require('https');
+const querystring = require('querystring');
+const url = require('url');
 
 const defaultAmazonPage = 'amazon.de';
 const defaultUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0';
