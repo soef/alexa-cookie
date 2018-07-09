@@ -24,7 +24,7 @@ function generateAlexaCookies (email, password, _options, callback) {
 
      function request(options, info, callback) {
 
-        _options.logger && _options.logger('Alexa-Cookie: Sending Request with ' + JSON.stringify(options, null, 2));
+        _options.logger && _options.logger('Alexa-Cookie: Sending Request with ' + JSON.stringify(options));
         if (typeof info === 'function') {
             callback = info;
             info = {
