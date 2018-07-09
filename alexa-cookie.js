@@ -24,7 +24,7 @@ function generateAlexaCookies (email, password, _options, callback) {
 
      function request(options, info, callback) {
 
-        _options.logger && _options.logger('Sending Request with ' + JSON.stringify(options, null, 2));
+        _options.logger && _options.logger('Alexa-Cookie: Sending Request with ' + JSON.stringify(options, null, 2));
         if (typeof info === 'function') {
             callback = info;
             info = {
@@ -47,7 +47,7 @@ function generateAlexaCookies (email, password, _options, callback) {
             info.requests.push({options: options, response: res});
 
             if (options.followRedirects !== false && res.statusCode >= 300 && res.statusCode < 400) {
-                _options.logger && _options.logger('Response (' + res.statusCode + ')' + (res.headers.location ? ' - Redirect to ' + res.headers.location : ''));
+                _options.logger && _options.logger('Alexa-Cookie: Response (' + res.statusCode + ')' + (res.headers.location ? ' - Redirect to ' + res.headers.location : ''));
                 //options.url = res.headers.location;
                 let u = url.parse(res.headers.location);
                 options.host = u.host;
@@ -59,7 +59,7 @@ function generateAlexaCookies (email, password, _options, callback) {
                 res.connection.end();
                 return request (options, info, callback);
             } else {
-                _options.logger && _options.logger('Response (' + res.statusCode + ')');
+                _options.logger && _options.logger('Alexa-Cookie: Response (' + res.statusCode + ')');
                 res.on ('data', function (chunk) {
                     body += chunk;
                 });
@@ -138,7 +138,7 @@ function generateAlexaCookies (email, password, _options, callback) {
             'Accept': '*/*'
         },
     };
-    _options.logger && _options.logger('Step 1: get first cookie and authentication redirect');
+    _options.logger && _options.logger('Alexa-Cookie: Step 1: get first cookie and authentication redirect');
     request (options, (error, response, body, info) => {
 
         let lastRequestOptions = info.requests[info.requests.length-1].options;
@@ -162,7 +162,7 @@ function generateAlexaCookies (email, password, _options, callback) {
             gzip: true,
             body: querystring.stringify (getFields (body))
         };
-        _options.logger && _options.logger('Step 2: login empty to generate session');
+        _options.logger && _options.logger('Alexa-Cookie: Step 2: login empty to generate session');
         request (options, (error, response, body, info) => {
             // login with filled out form
             //  !!! referer now contains session in URL
@@ -177,7 +177,7 @@ function generateAlexaCookies (email, password, _options, callback) {
             options.body.password = password;
             options.body = querystring.stringify (options.body);
 
-            _options.logger && _options.logger('Step 3: login with filled form, referer contains session id');
+            _options.logger && _options.logger('Alexa-Cookie: Step 3: login with filled form, referer contains session id');
             request (options, (error, response, body, info) => {
                 let lastRequestOptions = info.requests[info.requests.length-1].options;
 
@@ -203,7 +203,7 @@ function generateAlexaCookies (email, password, _options, callback) {
                 delete options.headers['Accept-Language'];
                 delete options.headers['Content-type'];
 
-                _options.logger && _options.logger('Step 4: get CSRF');
+                _options.logger && _options.logger('Alexa-Cookie: Step 4: get CSRF');
                 request (options, (error, response, body, info) => {
                     let cookie = addCookies (response.headers);
                     let ar = /csrf=([^;]+)/.exec (cookie);
