@@ -13,10 +13,10 @@ Library to generate a cookie including a csrf for alexa remote
 const alexaCookie = require('alexa-cookie');
 
 const options = { // options is optional at all
-    logger: console.log,   // optional: Logger instance to get (debug) logs
-    amazonPage: '...',     // optional: possible to use with different countries, default is 'amazon.de'
-    acceptLanguage: '...', // optional: webpage language, should match to amazon-Page, default is 'de-DE'
-    userAgent: '...'       // optional: own userAgent to use for all request, overwrites default one
+    logger: console.log,      // optional: Logger instance to get (debug) logs
+    amazonPage: 'amazon.com', // optional: possible to use with different countries, default is 'amazon.de'
+    acceptLanguage: 'en-US',  // optional: webpage language, should match to amazon-Page, default is 'de-DE'
+    userAgent: '...'          // optional: own userAgent to use for all request, overwrites default one
 }
 
 alexaCookie('amazon-email', 'password', options, function (err, result) {
@@ -26,6 +26,14 @@ alexaCookie('amazon-email', 'password', options, function (err, result) {
 
 ````
 
-## Info: 
+## Info:
 Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/amazon-alexa-hort-auf-die-shell-echo.html) (PLAIN shell) and [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control)
 Thank you for that work.
+
+## Changelog:
+
+### 0.1.0
+* (Apollon77) update to get it working again and sync to [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control)
+
+### 0.0.x
+* Versions by soef
