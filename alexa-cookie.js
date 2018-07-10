@@ -207,6 +207,7 @@ function generateAlexaCookies (email, password, _options, callback) {
                     let cookie = addCookies (response.headers);
                     let ar = /csrf=([^;]+)/.exec (cookie);
                     let csrf = ar ? ar[1] : undefined;
+                    _options.logger && _options.logger('Alexa-Cookie: Result: csrf=' + csrf + ', Cookie=' + cookie);
                     callback && callback(null, {
                         cookie: cookie,
                         csrf: csrf
