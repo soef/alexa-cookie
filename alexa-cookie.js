@@ -49,7 +49,7 @@ function generateAlexaCookies (email, password, _options, callback) {
                 _options.logger && _options.logger('Alexa-Cookie: Response (' + res.statusCode + ')' + (res.headers.location ? ' - Redirect to ' + res.headers.location : ''));
                 //options.url = res.headers.location;
                 let u = url.parse(res.headers.location);
-                options.host = u.host;
+                if (u.host) options.host = u.host;
                 options.path = u.path;
                 options.method = 'GET';
                 options.body = '';
