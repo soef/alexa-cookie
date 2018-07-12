@@ -33,7 +33,8 @@ Thank you for that work.
 ## Changelog:
 
 ### 0.1.x
-* (Apollon77) update to get it working again and sync to [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control)
+* (Apollon77) 0.1.2: Log the used user-Agent, Accept-Language and Login-URL
+* (Apollon77) 0.1.1: update to get it working again and sync to [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control)
 
 ### 0.0.x
 * Versions by soef

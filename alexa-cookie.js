@@ -122,6 +122,10 @@ function generateAlexaCookies (email, password, _options, callback) {
     _options.userAgent = _options.userAgent || defaultUserAgent;
     _options.acceptLanguage = _options.acceptLanguage || defaultAcceptLanguage;
 
+    _options.logger && _options.logger('Alexa-Remote: Use as Login-Amazon-URL: ' + _options.amazonPage);
+    _options.logger && _options.logger('Alexa-Remote: Use as User-Agent: ' + _options.userAgent);
+    _options.logger && _options.logger('Alexa-Remote: Use as Accept-Language: ' + _options.acceptLanguage);
+
     // get first cookie and write redirection target into referer
     let options = {
         host: 'alexa.' + _options.amazonPage,
