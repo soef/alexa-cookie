@@ -50,9 +50,12 @@ Thank you for that work.
 
 ## Changelog:
 
-### 0.1.x
+### 0.2.x
+* (Apollon77) 0.2.1: Cleanup to prepare release
 * (Apollon77) 0.2.0: Add option to use a proxy to also retrieve the credentials if the automatic retrieval fails
 * (Apollon77) 0.2.0: Optimize automatic cookie retrieval, remove MacOS user agent again because the Linux one seems to work better
+
+### 0.1.x
 * (Apollon77) 0.1.3: Use specific User-Agents for Win32, MacOS and linux based platforms
 * (Apollon77) 0.1.2: Log the used user-Agent, Accept-Language and Login-URL
 * (Apollon77) 0.1.1: update to get it working again and sync to [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control)
