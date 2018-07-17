@@ -275,7 +275,7 @@ function generateAlexaCookie (email, password, _options, callback) {
                 if (!lastRequestOptions.host.startsWith('alexa') || !lastRequestOptions.path.endsWith('.html')) {
                     let errMessage = 'Login unsuccessfull. Please check credentials.';
                     const amazonMessage = body.match(/auth-warning-message-box[\S\s]*"a-alert-heading">([^<]*)[\S\s]*<li><[^>]*>\s*([^<\n]*)\s*</);
-                    if (amazonMessage[1] && amazonMessage[2]) {
+                    if (amazonMessage && amazonMessage[1] && amazonMessage[2]) {
                         errMessage = `Amazon-Login-Error: ${amazonMessage[1]}: ${amazonMessage[2]}`;
                     }
                     if (_options.setupProxy) {
