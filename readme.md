@@ -32,7 +32,7 @@ alexaCookie.generateAlexaCookie('amazon-email', 'password', options, function (e
     // IMPORTANT: can be called multiple times!! As soon as na new cookie is fetched or an error happened. Consider that!
     console.log('cookie: ' + result.cookie);
     console.log('csrf: '   + result.csrf);
-    if (result.csrf) {
+    if (result && result.csrf) {
         alexaCookie.stopProxyServer();
     }
 });
