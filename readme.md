@@ -29,7 +29,7 @@ const options = { // options is optional at all
 }
 
 alexaCookie.generateAlexaCookie('amazon-email', 'password', options, function (err, result) {
-    // IMPORTANT: can be called multiple times!! As soon as na new cookie is fetched or an error happened. Consider that!
+    // IMPORTANT: can be called multiple times!! As soon as a new cookie is fetched or an error happened. Consider that!
     console.log('cookie: ' + result.cookie);
     console.log('csrf: '   + result.csrf);
     if (result && result.csrf) {
