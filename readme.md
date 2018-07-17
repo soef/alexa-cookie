@@ -19,6 +19,7 @@ const alexaCookie = require('alexa-cookie');
 const options = { // options is optional at all
     logger: console.log,       // optional: Logger instance to get (debug) logs
     amazonPage: 'amazon.com',  // optional: possible to use with different countries, default is 'amazon.de'
+    alexaServiceHost: 'pitangui.amazon.com',  // optional: possible to use with different countries, default is 'layla.amazon.de'
     acceptLanguage: 'en-US',   // optional: webpage language, should match to amazon-Page, default is 'de-DE'
     userAgent: '...',          // optional: own userAgent to use for all request, overwrites default one
     setupProxy: true,          // optional: should the library setup a proxy to get cookie when automatic way did not worked? Default false!
