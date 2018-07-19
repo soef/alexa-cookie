@@ -2,6 +2,8 @@
 
 Library to generate/retrieve a cookie including a csrf for alexa remote
 
+A big thanks go to soef for the initial version of this library.
+
 <!--
 [![NPM version](http://img.shields.io/npm/v/alexa-remote.svg)](https://www.npmjs.com/package/alexa-remote)
 [![Tests](http://img.shields.io/travis/soef/alexa-remote/master.svg)](https://travis-ci.org/soef/alexa-remote)
@@ -14,7 +16,7 @@ If the automatic authentication fails (because of security checks from amazon li
 
 ## Example:
 ```javascript 1.8
-const alexaCookie = require('alexa-cookie');
+const alexaCookie = require('alexa-cookie2');
 
 const options = { // options is optional at all
     logger: console.log,       // optional: Logger instance to get (debug) logs
@@ -44,9 +46,9 @@ alexaCookie.generateAlexaCookie('amazon-email', 'password', options, function (e
 Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/amazon-alexa-hort-auf-die-shell-echo.html) (PLAIN shell) and [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control)
 Thank you for that work.
 
-## TODO
-* Better parse amazon error page (e.g. check element content "auth-warning-message-box")
-* maybe really implement a proxy service to pass login through to allow captcha solving and such
+## TODO/Known issues
+* getNotification works, changeNotification not ... maybe change is DELETE +Create :-) (+ source for createNotification: https://github.com/noelportugal/alexa-reminders/blob/master/alexa-reminders.js#L75, and Delete/create: https://github.com/openhab/openhab2-addons/blob/f54c9b85016758ff6d271b62d255bbe41a027928/addons/binding/org.openhab.binding.amazonechocontrol/src/main/java/org/openhab/binding/amazonechocontrol/internal/Connection.java#L829)
+*
 
 ## Changelog:
 

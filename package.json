@@ -1,22 +1,22 @@
 {
-  "name": "alexa-cookie",
+  "name": "alexa-cookie2",
   "version": "0.2.1",
   "description": "Generate Cookie and CSRF for Alexa Remote",
   "author": {
-    "name": "soef",
-    "email": "soef@gmx.net"
+    "name": "Apollon77",
+    "email": "ingo@fischer-ka.de"
   },
   "contributors": [
     {
       "name": "soef",
       "email": "soef@gmx.net"
-  },
+    },
     {
       "name": "Apollon77",
       "email": "ingo@fischer-ka.de"
     }
   ],
-  "homepage": "https://github.com/soef/alexa-cookie",
+  "homepage": "https://github.com/Apollon77/alexa-cookie",
   "license": "MIT",
   "keywords": [
     "alexa",
@@ -40,10 +40,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/soef/alexa-cookie.git"
+    "url": "git+https://github.com/soApollon77ef/alexa-cookie.git"
   },
   "bugs": {
-    "url": "https://github.com/soef/alexa-cookie/issues"
+    "url": "https://github.com/Apollon77/alexa-cookie/issues"
   },
   "main": "alexa-cookie.js",
   "readmeFilename": "readme.md"
