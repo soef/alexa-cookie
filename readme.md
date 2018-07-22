@@ -53,6 +53,7 @@ Thank you for that work.
 ## Changelog:
 
 ### 0.2.x
+* (Apollon77) 0.2.2: fix encoding of special characters in email and password
 * (Apollon77) 0.2.1: Cleanup to prepare release
 * (Apollon77) 0.2.0: Add option to use a proxy to also retrieve the credentials if the automatic retrieval fails
 * (Apollon77) 0.2.0: Optimize automatic cookie retrieval, remove MacOS user agent again because the Linux one seems to work better

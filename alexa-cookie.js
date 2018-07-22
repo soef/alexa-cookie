@@ -267,7 +267,7 @@ function generateAlexaCookie (email, password, _options, callback) {
             options.body = getFields (body);
             options.body.email = email || '';
             options.body.password = password || '';
-            options.body = querystring.stringify (options.body);
+            options.body = querystring.stringify (options.body, null, null, {encodeURIComponent: encodeURIComponent});
 
             _options.logger && _options.logger('Alexa-Cookie: Step 3: login with filled form, referer contains session id');
             request (options, (error, response, body, info) => {
