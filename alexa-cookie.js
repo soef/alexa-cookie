@@ -382,10 +382,13 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
     }
 
     function replaceHosts(data) {
+        const dataOrig = data;
         const amazonRegex = new RegExp(`https?://www.${_options.amazonPage}/`.replace(/\./g,"\\."), 'g');
         const alexaRegex = new RegExp(`https?://alexa.${_options.amazonPage}/`.replace(/\./g,"\\."), 'g');
+        data = data.replace(/&#x2F;/g, '/');
         data = data.replace(amazonRegex, `http://${_options.proxyOwnIp}:${_options.proxyPort}/www.${_options.amazonPage}/`);
         data = data.replace(alexaRegex, `http://${_options.proxyOwnIp}:${_options.proxyPort}/alexa.${_options.amazonPage}/`);
+        _options.logger && _options.logger('REPLACEHOSTS: ' + dataOrig + ' --> ' + data);
         return data;
     }
 

@@ -48,6 +48,9 @@ Thank you for that work.
 
 ## Changelog:
 
+### 1.0.0
+* (Apollon77) handle Amazon change
+
 ### 0.2.x
 * (Apollon77) 0.2.2: fix encoding of special characters in email and password
 * (Apollon77) 0.2.1: Cleanup to prepare release
