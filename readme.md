@@ -29,15 +29,13 @@ const options = { // options is optional at all
     proxyLogLevel: 'info'      // optional: Loglevel of Proxy, default 'warn'
 }
 
-alexaCookie.generateAlexaCookie('amazon-email', 'password', options, function (err, result) {
+alexaCookie.generateAlexaCookie('amazon@email.de', 'amazon-password', config, (err, result) => {
     // IMPORTANT: can be called multiple times!! As soon as a new cookie is fetched or an error happened. Consider that!
-    console.log('cookie: ' + result.cookie);
-    console.log('csrf: '   + result.csrf);
+    console.log('RESULT: ' + err + ' / ' + JSON.stringify(result));
     if (result && result.csrf) {
         alexaCookie.stopProxyServer();
     }
 });
-
 ````
 
 ## Thanks:
