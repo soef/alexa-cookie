@@ -232,6 +232,10 @@ function generateAlexaCookie (email, password, _options, callback) {
     };
     _options.logger && _options.logger('Alexa-Cookie: Step 1: get first cookie and authentication redirect');
     request (options, (error, response, body, info) => {
+        if (error) {
+            callback && callback(error, null);
+            return;
+        }
 
         let lastRequestOptions = info.requests[info.requests.length-1].options;
         // login empty to generate session
@@ -256,6 +260,11 @@ function generateAlexaCookie (email, password, _options, callback) {
         };
         _options.logger && _options.logger('Alexa-Cookie: Step 2: login empty to generate session');
         request (options, (error, response, body, info) => {
+            if (error) {
+                callback && callback(error, null);
+                return;
+            }
+
             // login with filled out form
             //  !!! referer now contains session in URL
             options.host = 'www.' + _options.amazonPage;
@@ -271,6 +280,11 @@ function generateAlexaCookie (email, password, _options, callback) {
 
             _options.logger && _options.logger('Alexa-Cookie: Step 3: login with filled form, referer contains session id');
             request (options, (error, response, body, info) => {
+                if (error) {
+                    callback && callback(error, null);
+                    return;
+                }
+
                 let lastRequestOptions = info.requests[info.requests.length-1].options;
 
                 // check whether the login has been successful or exit otherwise
