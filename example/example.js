@@ -12,7 +12,11 @@ const config = {
     proxyOwnIp: 'localhost',          // required if proxy enabled: provide own IP or hostname to later access the proxy. needed to setup all rewriting and proxy stuff internally
     proxyPort: 3001,            // optional: use this port for the proxy, default is 0 means random port is selected
     proxyListenBind: '0.0.0.0', // optional: set this to bind the proxy to a special IP, default is '0.0.0.0'
-    proxyLogLevel: 'info'
+    proxyLogLevel: 'info',
+    proxyOnly: true,
+    amazonPageProxyLanguage: 'de',
+    //userAgent: 'AmazonWebView/Amazon Alexa/2.2.223830.0/iOS/11.4.1/iPhone',
+    //acceptLanguage: 'en-US'
 };
 
 alexaCookie.generateAlexaCookie('amazon@email.de', 'amazon-password', config, (err, result) => {
