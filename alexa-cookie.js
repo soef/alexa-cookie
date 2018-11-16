@@ -402,7 +402,7 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
         data = data.replace(/&#x2F;/g, '/');
         data = data.replace(amazonRegex, `http://${_options.proxyOwnIp}:${_options.proxyPort}/www.${_options.amazonPage}/`);
         data = data.replace(alexaRegex, `http://${_options.proxyOwnIp}:${_options.proxyPort}/alexa.${_options.amazonPage}/`);
-        _options.logger && _options.logger('REPLACEHOSTS: ' + dataOrig + ' --> ' + data);
+        //_options.logger && _options.logger('REPLACEHOSTS: ' + dataOrig + ' --> ' + data);
         return data;
     }
 
@@ -475,8 +475,8 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
 
         if (
             (proxyRes.socket && proxyRes.socket._host === `alexa.${_options.amazonPage}` && proxyRes.socket.parser.outgoing && proxyRes.socket.parser.outgoing.method === 'GET' && proxyRes.socket.parser.outgoing.path === '/spa/index.html') ||
-            (proxyRes.socket && proxyRes.socket.parser.outgoing && proxyRes.socket.parser.outgoing._headers.location && proxyRes.socket.parser.outgoing._headers.location === `https://alexa.${_options.amazonPage}/spa/index.html`) ||
-            (proxyRes.headers.location && proxyRes.headers.location === `https://alexa.${_options.amazonPage}/spa/index.html`)
+            (proxyRes.socket && proxyRes.socket.parser.outgoing && proxyRes.socket.parser.outgoing._headers.location && proxyRes.socket.parser.outgoing._headers.location.endsWith('/spa/index.html')) ||
+            (proxyRes.headers.location && proxyRes.headers.location.endsWith('/spa/index.html'))
         ) {
             _options.logger && _options.logger('Alexa-Cookie: Proxy detected SUCCESS!!');
             proxyRes.statusCode = 302;
@@ -492,6 +492,7 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
 
         // If we detect a redirect, rewrite the location header
         if (proxyRes.headers.location) {
+            _options.logger && _options.logger('Redirect: original Location ----> ' + proxyRes.headers.location);
             proxyRes.headers.location = replaceHosts(proxyRes.headers.location);
             _options.logger && _options.logger('Redirect: Location ----> ' + proxyRes.headers.location);
             return;

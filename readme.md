@@ -46,6 +46,9 @@ Thank you for that work.
 
 ## Changelog:
 
+### 1.0.2
+* (Apollon77) more Amazon tweaks
+
 ### 1.0.1
 * (Apollon77) better handle errors in automatic cookie generation
 
