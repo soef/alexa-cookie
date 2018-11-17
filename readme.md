@@ -46,6 +46,9 @@ Thank you for that work.
 
 ## Changelog:
 
+### 1.0.3
+* (Apollon77) try to better handle relative redirects from amazon (seen by 2FA checks)
+
 ### 1.0.2
 * (Apollon77) more Amazon tweaks
 
