@@ -556,7 +556,7 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
 
     function router(req) {
         const url = (req.originalUrl || req.url);
-        _options.logger && _options.logger(url + ' / ' + req.method + ' / ' + JSON.stringify(req.headers));
+        _options.logger && _options.logger('Router: ' + url + ' / ' + req.method + ' / ' + JSON.stringify(req.headers));
         if (req.headers.host === `${_options.proxyOwnIp}:${_options.proxyPort}`) {
             if (url.startsWith(`/www.amazon.com/`)) {
                 return `https://www.amazon.com`;
@@ -675,6 +675,9 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
         if (url.endsWith('.ico') || url.endsWith('.js') || url.endsWith('.ttf') || url.endsWith('.svg') || url.endsWith('.png') || url.endsWith('.appcache')) return;
         if (url.startsWith('/ap/uedata')) return;
         //_options.logger && _options.logger('Proxy-Response: ' + customStringify(proxyRes, null, 2));
+        let reqestHost = null;
+        if (proxyRes.socket && proxyRes.socket._host) reqestHost = proxyRes.socket._host;
+        _options.logger && _options.logger('Alexa-Cookie: Proxy Response from Host: ' + reqestHost);
         _options.proxyLogLevel === 'debug' && _options.logger && _options.logger('Alexa-Cookie: Proxy-Response Headers: ' + customStringify(proxyRes._headers, null, 2));
         _options.proxyLogLevel === 'debug' && _options.logger && _options.logger('Alexa-Cookie: Proxy-Response Outgoing: ' + customStringify(proxyRes.socket.parser.outgoing, null, 2));
         //_options.logger && _options.logger('Proxy-Response RES!!: ' + customStringify(res, null, 2));
@@ -689,8 +692,8 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
 
         if (
             (proxyRes.socket && proxyRes.socket._host === `www.amazon.com` && proxyRes.socket.parser.outgoing && proxyRes.socket.parser.outgoing.method === 'GET' && proxyRes.socket.parser.outgoing.path.startsWith('/ap/maplanding')) ||
-            (proxyRes.socket && proxyRes.socket.parser.outgoing && proxyRes.socket.parser.outgoing._headers.location && proxyRes.socket.parser.outgoing._headers.location.startsWith('https://www.amazon.com/ap/maplanding')) ||
-            (proxyRes.headers.location && proxyRes.headers.location.startsWith(`https://www.amazon.com/ap/maplanding`))
+            (proxyRes.socket && proxyRes.socket.parser.outgoing && proxyRes.socket.parser.outgoing._headers.location && proxyRes.socket.parser.outgoing._headers.location.endsWith('/ap/maplanding')) ||
+            (proxyRes.headers.location && proxyRes.headers.location.endsWith('/ap/maplanding'))
         ) {
             _options.logger && _options.logger('Alexa-Cookie: Proxy detected SUCCESS!!');
 
@@ -710,8 +713,12 @@ function initAmazonProxy(_options, email, password, callbackCookie, callbackList
 
         // If we detect a redirect, rewrite the location header
         if (proxyRes.headers.location) {
+            _options.logger && _options.logger('Redirect: Original Location ----> ' + proxyRes.headers.location);
             proxyRes.headers.location = replaceHosts(proxyRes.headers.location);
-            _options.logger && _options.logger('Redirect: Location ----> ' + proxyRes.headers.location);
+            if (reqestHost && proxyRes.headers.location.startsWith('/')) {
+                proxyRes.headers.location = `http://${_options.proxyOwnIp}:${_options.proxyPort}/` + reqestHost + proxyRes.headers.location;
+            }
+            _options.logger && _options.logger('Redirect: Final Location ----> ' + proxyRes.headers.location);
             return;
         }
         if (!proxyRes || !proxyRes.headers || !proxyRes.headers['content-encoding']) return;
