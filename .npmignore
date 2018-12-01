@@ -3,3 +3,4 @@ tasks
 node_modules
 .git
 .idea
+package-lock.json
