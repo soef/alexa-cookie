@@ -1,16 +1,12 @@
 {
   "name": "alexa-cookie2",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Generate Cookie and CSRF for Alexa Remote",
   "author": {
     "name": "Apollon77",
     "email": "ingo@fischer-ka.de"
   },
   "contributors": [
-    {
-      "name": "soef",
-      "email": "soef@gmx.net"
-    },
     {
       "name": "Apollon77",
       "email": "ingo@fischer-ka.de"
@@ -27,14 +23,15 @@
   "dependencies": {
     "cookie": "^0.3.1",
     "express": "^4.16.4",
-    "http-proxy-middleware": "^0.19.0",
+    "http-proxy-middleware": "^0.19.1",
     "http-proxy-response-rewrite": "^0.0.1",
     "https": "^1.0.0",
     "querystring": "^0.2.0"
   },
   "devDependencies": {
-    "mocha": "^2.3.4",
-    "chai": "^3.4.1"
+    "mocha": "^5.2.0",
+    "chai": "^4.2.0",
+    "@types/node": "^10.12.10"
   },
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha"
