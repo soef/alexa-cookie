@@ -672,7 +672,7 @@ function refreshAlexaCookie(__options, callback) {
         _options.formerRegistrationData.loginCookie = addCookies(_options.formerRegistrationData.loginCookie, response.headers);
 
         if (!body.access_token) {
-            callback && callback(new Error('No new access token in TRefresh Token response'), null);
+            callback && callback(new Error('No new access token in Refresh Token response'), null);
             return;
         }
         _options.formerRegistrationData.loginCookie = addCookies(Cookie, response.headers);
