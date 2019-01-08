@@ -486,26 +486,34 @@ function handleTokenRegistration(_options, loginData, callback) {
         _options.logger && _options.logger('Alexa-Cookie: Get User data');
         _options.logger && _options.logger(JSON.stringify(options));
         request(options, (error, response, body) => {
-            if (error) {
+            if (!error) {
+                try {
+                    if (typeof body !== 'object') body = JSON.parse(body);
+                } catch (err) {
+                    _options.logger && _options.logger('Get User data Response: ' + JSON.stringify(body));
+                    callback && callback(err, null);
+                    return;
+                }
+                _options.logger && _options.logger('Get User data Response: ' + JSON.stringify(body));
+
+                Cookie = addCookies(Cookie, response.headers);
+
+                if (body.marketPlaceDomainName) {
+                    const pos = body.marketPlaceDomainName.indexOf('.');
+                    if (pos !== -1) _options.amazonPage =  body.marketPlaceDomainName.substr(pos+1);
+                }
+                loginData.amazonPage = _options.amazonPage;
+            }
+            else if (error && !_options.amazonPage) {
                 callback && callback(error, null);
                 return;
             }
-            try {
-                if (typeof body !== 'object') body = JSON.parse(body);
-            } catch (err) {
-                _options.logger && _options.logger('Get User data Response: ' + JSON.stringify(body));
-                callback && callback(err, null);
-                return;
+            else if (error && !_options.formerRegistrationData.amazonPage && _options.amazonPage) {
+                _options.logger && _options.logger('Continue with externally set amazonPage: ' + _options.amazonPage);
             }
-            _options.logger && _options.logger('Get User data Response: ' + JSON.stringify(body));
-
-            Cookie = addCookies(Cookie, response.headers);
-
-            if (body.marketPlaceDomainName) {
-                const pos = body.marketPlaceDomainName.indexOf('.');
-                if (pos !== -1) _options.amazonPage =  body.marketPlaceDomainName.substr(pos+1);
+            else if (error) {
+                _options.logger && _options.logger('Ignore error while getting user data and amazonPage because previously set amazonPage is available');
             }
-            loginData.amazonPage = _options.amazonPage;
 
             loginData.loginCookie = Cookie;
             Cookie = ''; // Reset because we are switching domains
