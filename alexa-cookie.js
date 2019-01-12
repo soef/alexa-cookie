@@ -516,85 +516,13 @@ function handleTokenRegistration(_options, loginData, callback) {
             }
 
             loginData.loginCookie = Cookie;
-            Cookie = ''; // Reset because we are switching domains
-            /*
-                Token Exchange to Amazon Country Page
-            */
 
-            const exchangeParams = {
-                'di.os.name': 'iOS',
-                'app_version': '2.2.223830.0',
-                'domain': '.' + loginData.amazonPage,
-                'source_token': loginData.refreshToken,
-                'requested_token_type': 'auth_cookies',
-                'source_token_type': 'refresh_token',
-                'di.hw.version': 'iPhone',
-                'di.sdk.version': '6.10.0',
-                'cookies': Buffer.from('{„cookies“:{".' + loginData.amazonPage + '":[]}}').toString('base64'),
-                'app_name': 'Amazon Alexa',
-                'di.os.version': '11.4.1'
-            };
-            let options = {
-                host: 'www.' + loginData.amazonPage,
-                path: '/ap/exchangetoken',
-                method: 'POST',
-                headers: {
-                    'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.223830.0/iOS/11.4.1/iPhone',
-                    'Accept-Language': _options.acceptLanguage,
-                    'Accept-Charset': 'utf-8',
-                    'Connection': 'keep-alive',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Accept': '*/*'
-                },
-                body: querystring.stringify(exchangeParams, null, null, {
-                    encodeURIComponent: encodeURIComponent
-                })
-            };
-            _options.logger && _options.logger('Alexa-Cookie: Exchange tokens');
-            _options.logger && _options.logger(JSON.stringify(options));
-
-            request(options, (error, response, body) => {
-                if (error) {
-                    callback && callback(error, null);
-                    return;
-                }
-                try {
-                    if (typeof body !== 'object') body = JSON.parse(body);
-                } catch (err) {
-                    _options.logger && _options.logger('Exchange Token Response: ' + JSON.stringify(body));
+            getLocalCookies(loginData.amazonPage, loginData.refreshToken, (err, localCookie) => {
+                if (err) {
                     callback && callback(err, null);
-                    return;
-                }
-                _options.logger && _options.logger('Exchange Token Response: ' + JSON.stringify(body));
-
-                if (!body.response || !body.response.tokens || !body.response.tokens.cookies) {
-                    callback && callback(new Error('No cookies in Exchange response'), null);
-                    return;
-                }
-                if (!body.response.tokens.cookies['.' + loginData.amazonPage]) {
-                    callback && callback(new Error('No cookies for ' + loginData.amazonPage + ' in Exchange response'), null);
-                    return;
                 }
 
-                Cookie = addCookies(Cookie, response.headers);
-                const cookies = cookieTools.parse(Cookie);
-                body.response.tokens.cookies['.' + loginData.amazonPage].forEach((cookie) => {
-                    if (cookies[cookie.Name] && cookies[cookie.Name] !== cookie.Value) {
-                        _options.logger && _options.logger('Alexa-Cookie: Update Cookie ' + cookie.Name + ' = ' + cookie.Value);
-                    }
-                    else if (!cookies[cookie.Name]) {
-                        _options.logger && _options.logger('Alexa-Cookie: Add Cookie ' + cookie.Name + ' = ' + cookie.Value);
-                    }
-                    cookies[cookie.Name] = cookie.Value;
-
-                });
-                let localCookie = '';
-                for (let name in cookies) {
-                    if (!cookies.hasOwnProperty(name)) continue;
-                    localCookie += name + '=' + cookies[name] + '; ';
-                }
-                loginData.localCookie = localCookie.replace(/[; ]*$/, '');
-
+                loginData.localCookie = localCookie;
                 getCSRFFromCookies(loginData.localCookie, _options, (err, resData) => {
                     if (err) {
                         callback && callback(new Error('Error getting csrf for ' + loginData.amazonPage), null);
@@ -609,7 +537,90 @@ function handleTokenRegistration(_options, loginData, callback) {
             });
         });
     });
+}
 
+function getLocalCookies(amazonPage, refreshToken, callback) {
+    Cookie = ''; // Reset because we are switching domains
+    /*
+        Token Exchange to Amazon Country Page
+    */
+
+    const exchangeParams = {
+        'di.os.name': 'iOS',
+        'app_version': '2.2.223830.0',
+        'domain': '.' + amazonPage,
+        'source_token': refreshToken,
+        'requested_token_type': 'auth_cookies',
+        'source_token_type': 'refresh_token',
+        'di.hw.version': 'iPhone',
+        'di.sdk.version': '6.10.0',
+        'cookies': Buffer.from('{„cookies“:{".' + amazonPage + '":[]}}').toString('base64'),
+        'app_name': 'Amazon Alexa',
+        'di.os.version': '11.4.1'
+    };
+    let options = {
+        host: 'www.' + amazonPage,
+        path: '/ap/exchangetoken',
+        method: 'POST',
+        headers: {
+            'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.223830.0/iOS/11.4.1/iPhone',
+            'Accept-Language': _options.acceptLanguage,
+            'Accept-Charset': 'utf-8',
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': '*/*'
+        },
+        body: querystring.stringify(exchangeParams, null, null, {
+            encodeURIComponent: encodeURIComponent
+        })
+    };
+    _options.logger && _options.logger('Alexa-Cookie: Exchange tokens for ' + amazonPage);
+    _options.logger && _options.logger(JSON.stringify(options));
+
+    request(options, (error, response, body) => {
+        if (error) {
+            callback && callback(error, null);
+            return;
+        }
+        try {
+            if (typeof body !== 'object') body = JSON.parse(body);
+        } catch (err) {
+            _options.logger && _options.logger('Exchange Token Response: ' + JSON.stringify(body));
+            callback && callback(err, null);
+            return;
+        }
+        _options.logger && _options.logger('Exchange Token Response: ' + JSON.stringify(body));
+
+        if (!body.response || !body.response.tokens || !body.response.tokens.cookies) {
+            callback && callback(new Error('No cookies in Exchange response'), null);
+            return;
+        }
+        if (!body.response.tokens.cookies['.' + amazonPage]) {
+            callback && callback(new Error('No cookies for ' + amazonPage + ' in Exchange response'), null);
+            return;
+        }
+
+        Cookie = addCookies(Cookie, response.headers);
+        const cookies = cookieTools.parse(Cookie);
+        body.response.tokens.cookies['.' + amazonPage].forEach((cookie) => {
+            if (cookies[cookie.Name] && cookies[cookie.Name] !== cookie.Value) {
+                _options.logger && _options.logger('Alexa-Cookie: Update Cookie ' + cookie.Name + ' = ' + cookie.Value);
+            }
+            else if (!cookies[cookie.Name]) {
+                _options.logger && _options.logger('Alexa-Cookie: Add Cookie ' + cookie.Name + ' = ' + cookie.Value);
+            }
+            cookies[cookie.Name] = cookie.Value;
+
+        });
+        let localCookie = '';
+        for (let name in cookies) {
+            if (!cookies.hasOwnProperty(name)) continue;
+            localCookie += name + '=' + cookies[name] + '; ';
+        }
+        localCookie = localCookie.replace(/[; ]*$/, '');
+
+        callback && callback(null, localCookie);
+    });
 }
 
 function refreshAlexaCookie(__options, callback) {
@@ -685,7 +696,21 @@ function refreshAlexaCookie(__options, callback) {
         }
         _options.formerRegistrationData.loginCookie = addCookies(Cookie, response.headers);
         _options.formerRegistrationData.accessToken = body.access_token;
-        handleTokenRegistration(_options, _options.formerRegistrationData, callback);
+
+        getLocalCookies('amazon.com', _options.formerRegistrationData.refreshToken, (err, comCookie) => {
+            if (err) {
+                callback && callback(err, null);
+            }
+
+            // Restore frc and map-md
+            const initCookies = cookieTools.parse(_options.formerRegistrationData.loginCookie);
+            let newCookie = 'frc=' + initCookies.frc + '; ';
+            newCookie += 'map-md=' + initCookies['map-md'] + '; ';
+            newCookie += comCookie;
+
+            _options.formerRegistrationData.loginCookie = newCookie;
+            handleTokenRegistration(_options, _options.formerRegistrationData, callback);
+        });
     });
 }
 
