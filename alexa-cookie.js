@@ -162,7 +162,7 @@ function initConfig() {
     _options.logger && _options.logger('Alexa-Cookie: Use as Accept-Language: ' + _options.acceptLanguage);
 
     if (_options.setupProxy && !_options.proxyOwnIp) {
-        _options.logger && _options.logger('Alexa-Cookie: Own-IP Setting muissing for Proxy. Disabling!');
+        _options.logger && _options.logger('Alexa-Cookie: Own-IP Setting missing for Proxy. Disabling!');
         _options.setupProxy = false;
     }
     if (_options.setupProxy) {
