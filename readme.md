@@ -46,6 +46,9 @@ Thank you for that work.
 
 ## Changelog:
 
+### 2.1.1
+* (tonesto7 / Gabriele-V) Added others CSRF after Amazon changes
+
 ### 2.1.0
 * (Apollon77) Adjust to get CSRF from different URLs after changes from Amazon
 
