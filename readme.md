@@ -46,8 +46,11 @@ Thank you for that work.
 
 ## Changelog:
 
-### 2.1.1
+### 3.0.0
 * (tonesto7 / Gabriele-V) Added others CSRF after Amazon changes
+* (Apollon77) update deps
+* (Apollon77) Add GitHub Actions for check and release
+* (Apollon77) Rebuild a bit to allow parallel instances to work, should be compatible ...
 
 ### 2.1.0
 * (Apollon77) Adjust to get CSRF from different URLs after changes from Amazon
