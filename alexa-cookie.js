@@ -334,6 +334,9 @@ function AlexaCookie() {
                                 } else {
                                     amazonProxy.initAmazonProxy(_options, prepareResult,
                                         (server) => {
+                                            if (!server) {
+                                                return callback && callback(new Error('Proxy could not be initialized'), null);
+                                            }
                                             proxyServer = server;
                                             if (!_options.proxyPort || _options.proxyPort === 0) {
                                                 _options.proxyPort = proxyServer.address().port;

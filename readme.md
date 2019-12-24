@@ -46,6 +46,9 @@ Thank you for that work.
 
 ## Changelog:
 
+### 3.0.1 (2019.12.24)
+* (Apollon77) Prevent error thrown when proxy port already in use
+
 ### 3.0.0
 * (tonesto7 / Gabriele-V) Added others CSRF after Amazon changes
 * (Apollon77) update deps
