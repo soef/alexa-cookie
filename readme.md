@@ -46,6 +46,9 @@ Thank you for that work.
 
 ## Changelog:
 
+### 3.0.2 (2019.12.27)
+* (Apollon77) Prevent error when no headers are existent
+
 ### 3.0.1 (2019.12.24)
 * (Apollon77) Prevent error thrown when proxy port already in use
 

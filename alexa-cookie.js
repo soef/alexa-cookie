@@ -205,7 +205,7 @@ function AlexaCookie() {
 
             _options.logger && _options.logger('Alexa-Cookie: Step 4: get CSRF via ' + path);
             request(options, (error, response) => {
-                cookie = addCookies(cookie, response.headers);
+                cookie = addCookies(cookie, response ? response.headers : null);
                 let ar = /csrf=([^;]+)/.exec(cookie);
                 let csrf = ar ? ar[1] : undefined;
                 _options.logger && _options.logger('Alexa-Cookie: Result: csrf=' + csrf + ', Cookie=' + cookie);
