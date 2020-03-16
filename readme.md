@@ -46,6 +46,9 @@ Thank you for that work.
 
 ## Changelog:
 
+### 3.0.3 (2020.03.16)
+* (Apollon77) Prevent error for empty Cookie cases (on communication errors)
+
 ### 3.0.2 (2019.12.27)
 * (Apollon77) Prevent error when no headers are existent
 

@@ -43,7 +43,7 @@ function AlexaCookie() {
 
     const addCookies = (Cookie, headers) => {
         if (!headers || !headers['set-cookie']) return Cookie;
-        const cookies = cookieTools.parse(Cookie);
+        const cookies = cookieTools.parse(Cookie || '');
         for (let cookie of headers['set-cookie']) {
             cookie = cookie.match(/^([^=]+)=([^;]+);.*/);
             if (cookie && cookie.length === 3) {
