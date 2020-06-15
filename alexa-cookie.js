@@ -97,7 +97,7 @@ function AlexaCookie() {
                 options.body = '';
                 options.headers.Cookie = Cookie = addCookies(Cookie, res.headers);
 
-                res.connection.end();
+                res.socket.end();
                 return request(options, info, callback);
             } else {
                 _options.logger && _options.logger('Alexa-Cookie: Response (' + res.statusCode + ')');
@@ -107,7 +107,7 @@ function AlexaCookie() {
 
                 res.on('end',  () => {
                     if (removeContentLength) delete options.headers['Content-Length'];
-                    res.connection.end();
+                    res.socket.end();
                     callback && callback(0, res, body, info);
                 });
             }
@@ -145,6 +145,9 @@ function AlexaCookie() {
         if (_options.formerRegistrationData && _options.formerRegistrationData.amazonPage) _options.amazonPage = _options.formerRegistrationData.amazonPage;
 
         _options.logger && _options.logger('Alexa-Cookie: Use as Login-Amazon-URL: ' + _options.amazonPage);
+
+        _options.baseAmazonPage = _options.baseAmazonPage || 'amazon.com';
+        _options.logger && _options.logger('Alexa-Cookie: Use as Base-Amazon-URL: ' + _options.baseAmazonPage);
 
         if (!_options.userAgent) {
             let platform = os.platform();
@@ -412,7 +415,7 @@ function AlexaCookie() {
                         "Name": "session-id-time"
                     }*/
                 ],
-                "domain": ".amazon.com"
+                "domain": "." + _options.baseAmazonPage
             },
             "registration_data": {
                 "domain": "Device",
@@ -446,7 +449,7 @@ function AlexaCookie() {
         }
 
         let options = {
-            host: 'api.amazon.com',
+            host: 'api.' + _options.baseAmazonPage,
             path: '/auth/register',
             method: 'POST',
             headers: {
@@ -457,7 +460,7 @@ function AlexaCookie() {
                 'Content-Type': 'application/json',
                 'Cookie': loginData.loginCookie,
                 'Accept': '*/*',
-                'x-amzn-identity-auth-domain': 'api.amazon.com'
+                'x-amzn-identity-auth-domain': 'api.' + _options.baseAmazonPage
             },
             body: JSON.stringify(registerData)
         };
@@ -491,7 +494,7 @@ function AlexaCookie() {
             */
 
             let options = {
-                host: 'alexa.amazon.com',
+                host: 'alexa.' + _options.baseAmazonPage,
                 path: '/api/users/me?platform=ios&version=2.2.223830.0',
                 method: 'GET',
                 headers: {
@@ -672,7 +675,7 @@ function AlexaCookie() {
         };
 
         let options = {
-            host: 'api.amazon.com',
+            host: 'api.' + _options.baseAmazonPage,
             path: '/auth/token',
             method: 'POST',
             headers: {
@@ -683,7 +686,7 @@ function AlexaCookie() {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Cookie': _options.formerRegistrationData.loginCookie,
                 'Accept': 'application/json',
-                'x-amzn-identity-auth-domain': 'api.amazon.com'
+                'x-amzn-identity-auth-domain': 'api.' + _options.baseAmazonPage
             },
             body: querystring.stringify(refreshData)
         };
@@ -713,7 +716,7 @@ function AlexaCookie() {
             _options.formerRegistrationData.loginCookie = addCookies(Cookie, response.headers);
             _options.formerRegistrationData.accessToken = body.access_token;
 
-            getLocalCookies('amazon.com', _options.formerRegistrationData.refreshToken, (err, comCookie) => {
+            getLocalCookies(_options.baseAmazonPage, _options.formerRegistrationData.refreshToken, (err, comCookie) => {
                 if (err) {
                     callback && callback(err, null);
                 }
