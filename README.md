@@ -46,6 +46,11 @@ Thank you for that work.
 
 ## Changelog:
 
+### 3.2.0 (2020-06-15)
+* (Apollon77) Make compatible with nodejs 14
+* (Apollon77) Adjust to changes from Amazon so that initial Proxy process works again 
+* (Apollon77) Add new parameter baseAmazonPage to allow use the library also for other regions (e.g. set to amazon.co.jp for japanese)
+
 ### 3.0.3 (2020.03.16)
 * (Apollon77) Prevent error for empty Cookie cases (on communication errors)
 
