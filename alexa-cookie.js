@@ -97,7 +97,7 @@ function AlexaCookie() {
                 options.body = '';
                 options.headers.Cookie = Cookie = addCookies(Cookie, res.headers);
 
-                res.socket.end();
+                res.socket && res.socket.end();
                 return request(options, info, callback);
             } else {
                 _options.logger && _options.logger('Alexa-Cookie: Response (' + res.statusCode + ')');
@@ -107,7 +107,7 @@ function AlexaCookie() {
 
                 res.on('end',  () => {
                     if (removeContentLength) delete options.headers['Content-Length'];
-                    res.socket.end();
+                    res.socket && res.socket.end();
                     callback && callback(0, res, body, info);
                 });
             }
