@@ -46,8 +46,11 @@ Thank you for that work.
 
 ## Changelog:
 
+### 3.2.1 (2020-06-17)
+* (Apollon77) another optimization for Node.js 14
+
 ### 3.2.0 (2020-06-15)
-* (Apollon77) Make compatible with nodejs 14
+* (Apollon77) Make compatible with Node.js 14
 * (Apollon77) Adjust to changes from Amazon so that initial Proxy process works again 
 * (Apollon77) Add new parameter baseAmazonPage to allow use the library also for other regions (e.g. set to amazon.co.jp for japanese)
 
