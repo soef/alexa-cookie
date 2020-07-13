@@ -149,6 +149,19 @@ function AlexaCookie() {
         _options.baseAmazonPage = _options.baseAmazonPage || 'amazon.com';
         _options.logger && _options.logger('Alexa-Cookie: Use as Base-Amazon-URL: ' + _options.baseAmazonPage);
 
+        if (!_options.baseAmazonPageHandle) {
+            const amazonDomain = _options.baseAmazonPage.substr(_options.baseAmazonPage.lastIndexOf('.') + 1);
+            if (amazonDomain !== 'com') {
+                _options.baseAmazonPageHandle = '_' + amazonDomain;
+            }
+            else {
+                _options.baseAmazonPageHandle = '';
+            }
+        }
+        else {
+            _options.baseAmazonPageHandle = '';
+        }
+
         if (!_options.userAgent) {
             let platform = os.platform();
             if (platform === 'win32') {
@@ -361,6 +374,9 @@ function AlexaCookie() {
             });
         } else {
             amazonProxy.initAmazonProxy(_options, prepareResult, (server) => {
+                if (!server) {
+                    callback && callback(new Error('Proxy Server could not be initialized. Check Logs.'), null);
+                }
                 proxyServer = server;
                 if (!_options.proxyPort || _options.proxyPort === 0) {
                     _options.proxyPort = proxyServer.address().port;

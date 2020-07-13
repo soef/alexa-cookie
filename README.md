@@ -46,6 +46,14 @@ Thank you for that work.
 
 ## Changelog:
 
+### __WORK IN PROGRESS__
+* (Apollon77) Adjust to latest Amazon changes
+* (Apollon77) Remember latest virtual device settings to adress amazons new security measures
+* (Apollon77) Adjust handling for japanese amazon region
+* (Apollon77) Handle error correctly when proxy server could not be initialized correctly (Sentry IOBROKER-ALEXA2-1E)
+* (Apollon77) handle all object changes correctly (Sentry IOBROKER-ALEXA2-1F)
+* (Apollon77) handle error cases better (Sentry IOBROKER-ALEXA2-1N)
+
 ### 3.2.1 (2020-06-17)
 * (Apollon77) another optimization for Node.js 14
 
