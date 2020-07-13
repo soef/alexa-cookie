@@ -46,7 +46,7 @@ Thank you for that work.
 
 ## Changelog:
 
-### __WORK IN PROGRESS__
+### 3.3.0 (2020-07-13)
 * (Apollon77) Adjust to latest Amazon changes
 * (Apollon77) Remember latest virtual device settings to adress amazons new security measures
 * (Apollon77) Adjust handling for japanese amazon region
