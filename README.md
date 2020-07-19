@@ -46,7 +46,7 @@ Thank you for that work.
 
 ## Changelog:
 
-### __WORK IN PROGRESS__
+### 3.4.0 (2020-07-19)
 * (Apollon77) Do not reuse device id from formerRegistrationData if store is invalid
 * (Apollon77) Allow to set path for former file from extern
 
