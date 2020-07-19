@@ -19,6 +19,7 @@ const config = {
     proxyLogLevel: 'info',      // optional: Loglevel of Proxy, default 'warn'
     baseAmazonPage: 'amazon.com', // optional: Change the Proxy Amazon Page - all "western countries" directly use amazon.com! Change to amazon.co.jp for Japan
     amazonPageProxyLanguage: 'de_DE', // optional: language to be used for the Amazon Sign-in page the proxy calls. default is "de_DE")
+    formerDataStorePath: '...', // optional: overwrite path where some of the formerRegistrationData are persisted to optimize against Amazon security measures
     formerRegistrationData: { ... } // optional/preferred: provide the result object from subsequent proxy usages here and some generated data will be reused for next proxy call too
 };
 
