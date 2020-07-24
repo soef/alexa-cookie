@@ -46,7 +46,7 @@ Thank you for that work.
 
 ## Changelog:
 
-### __WORK IN PROGRESS__
+### 3.4.1 (2020-07-24)
 * (Apollon77) Try to revert one change and only use BaseHandle when .jp is on the end of the Domainname for japanese
 
 ### 3.4.0 (2020-07-19)
