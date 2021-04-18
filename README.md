@@ -46,7 +46,7 @@ Thank you for that work.
 
 ## Changelog:
 
-### __WORK IN PROGRESS__
+### 3.4.3 (2021-04-18)
 * (Apollon77) handle potential crash case (Sentry IOBROKER-ALEXA2-86)
 
 ### 3.4.2 (2020-11-23)
