@@ -1,12 +1,10 @@
 # alexa-cookie
 
-Library to generate/retrieve a cookie including a csrf for alexa remote
+[![NPM version](http://img.shields.io/npm/v/alexa-cookie2.svg)](https://www.npmjs.com/package/alexa-cookie2)
+[![Downloads](https://img.shields.io/npm/dm/alexa-cookie2.svg)](https://www.npmjs.com/package/alexa-cookie2)
+![Test and Release](https://github.com/Apollon77/alexa-cookie/workflows/Test%20and%20Release/badge.svg)
 
-<!--
-[![NPM version](http://img.shields.io/npm/v/alexa-remote.svg)](https://www.npmjs.com/package/alexa-remote)
-[![Tests](http://img.shields.io/travis/soef/alexa-remote/master.svg)](https://travis-ci.org/soef/alexa-remote)
--->
-[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/soef/alexa-remote/blob/master/LICENSE)
+Library to generate/retrieve a cookie including a csrf for alexa remote
 
 ## Description
 This library can be used to get the cookies needed to access Amazon Alexa services from outside. It authenticates with Amazon and gathers all needed details. These details are returned in the callback.
