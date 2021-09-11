@@ -389,7 +389,7 @@ function AlexaCookie() {
         }
 
         function prepareResult(err, data) {
-            if (err || !data.accessToken) {
+            if (err || !data.authorization_code) {
                 callback && callback(err, data.loginCookie);
                 return;
             }
@@ -447,7 +447,11 @@ function AlexaCookie() {
                 "software_version": "1"
             },
             "auth_data": {
-                "access_token": loginData.accessToken
+				"client_id" : loginData.deviceId,
+				"authorization_code" : loginData.authorization_code,
+				"code_verifier" : loginData.verifier,
+				"code_algorithm" : "SHA-256",
+				"client_domain" : "DeviceLegacy"
             },
             "user_context_map": {
                 "frc": cookies.frc
@@ -568,7 +572,6 @@ function AlexaCookie() {
                         }
                         loginData.localCookie = resData.cookie;
                         loginData.csrf = resData.csrf;
-                        delete loginData.accessToken;
                         _options.logger && _options.logger('Final Registraton Result: ' + JSON.stringify(loginData));
                         callback && callback(null, loginData);
                     });
