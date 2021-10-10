@@ -34,15 +34,23 @@ Important for the further interaction with alexa are the keys "localCookie" (sam
 
 If you not do this a new device is created each time the proxy is used which can end up in having many unused devices (such a device is like a mobile phone where you use the Alexa App with).
 
-Please use the new method "refreshAlexaCookie" to refresh the cookie data. It takes the same options object as the other method and requires the key "formerRegistrationData". It returns an updated object will all data as above. Please also store this and provide for susequent calls!
+Please use the new method "refreshAlexaCookie" to refresh the cookie data. It takes the same options object as the other method and requires the key "formerRegistrationData". It returns an updated object will all data as above. Please also store this and provide for subsequent calls!
+
+Since 4.0.0 of this library a new key called "macDms" is also returned when cookies are generated or refreshed. This is (right now Oct 2021) needed to use the Push Connection (alexa-remote library). Better strt also persisting this field, might be needed more later on. 
 
 ## Thanks:
-A big thanks go to soef for the initial version of this library.
+A big thanks go to soef for the initial version of this library and to many other community users to support in finding out what Amazon changes here and there.
 
 Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/amazon-alexa-hort-auf-die-shell-echo.html) (PLAIN shell) and [alexa-remote-control](https://github.com/thorsten-gehrig/alexa-remote-control) and the the Proxy idea from [OpenHab-Addon](https://github.com/openhab/openhab2-addons/blob/f54c9b85016758ff6d271b62d255bbe41a027928/addons/binding/org.openhab.binding.amazonechocontrol). Also the new way to refresh cookie and all needed changes were developed in close cooperation with @mgeramb 
 Thank you for that work.
 
 ## Changelog:
+
+### __WORK IN PROGRESS__
+* IMPORTANT: Node.js 10 support is dropped, supports LTS versions of Node.js starting with 12.x
+* (Apollon77) Add support to get macDms with relevant data from the device registration process to use in push connection.
+* (adn77) Update Login Flow to use match to most current Alexa App flow using code auth
+* (Apollon77) Update deps, drop Node.js 10 support
 
 ### 3.4.3 (2021-04-18)
 * (Apollon77) handle potential crash case (Sentry IOBROKER-ALEXA2-86)
