@@ -458,17 +458,17 @@ function AlexaCookie() {
                 "website_cookies"
             ]
         };
-        if (loginData.authorization_code && loginData.verifier) {
+        if (loginData.accessToken) {
+            registerData.auth_data = {
+                "access_token": loginData.accessToken
+            };
+        } else if (loginData.authorization_code && loginData.verifier) {
             registerData.auth_data = {
                 "client_id" : loginData.deviceId,
                 "authorization_code" : loginData.authorization_code,
                 "code_verifier" : loginData.verifier,
                 "code_algorithm" : "SHA-256",
                 "client_domain" : "DeviceLegacy"
-            };
-        } else if (loginData.accessToken) {
-            registerData.auth_data = {
-                "access_token": loginData.accessToken
             };
         }
         for (let key in cookies) {
