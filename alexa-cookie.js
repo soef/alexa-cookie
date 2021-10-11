@@ -447,11 +447,7 @@ function AlexaCookie() {
                 "software_version": "1"
             },
             "auth_data": {
-				"client_id" : loginData.deviceId,
-				"authorization_code" : loginData.authorization_code,
-				"code_verifier" : loginData.verifier,
-				"code_algorithm" : "SHA-256",
-				"client_domain" : "DeviceLegacy"
+                // Filled below
             },
             "user_context_map": {
                 "frc": cookies.frc
@@ -462,6 +458,19 @@ function AlexaCookie() {
                 "website_cookies"
             ]
         };
+        if (loginData.authorization_code && loginData.verifier) {
+            registerData.auth_data = {
+                "client_id" : loginData.deviceId,
+                "authorization_code" : loginData.authorization_code,
+                "code_verifier" : loginData.verifier,
+                "code_algorithm" : "SHA-256",
+                "client_domain" : "DeviceLegacy"
+            };
+        } else if (loginData.accessToken) {
+            registerData.auth_data = {
+                "access_token": loginData.accessToken
+            };
+        }
         for (let key in cookies) {
             if (!cookies.hasOwnProperty(key)) continue;
             registerData.cookies.website_cookies.push({
@@ -573,6 +582,7 @@ function AlexaCookie() {
                         }
                         loginData.localCookie = resData.cookie;
                         loginData.csrf = resData.csrf;
+                        delete loginData.accessToken;
                         _options.logger && _options.logger('Final Registration Result: ' + JSON.stringify(loginData));
                         callback && callback(null, loginData);
                     });
