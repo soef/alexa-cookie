@@ -45,8 +45,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-
-### __WORK IN PROGRESS__
+### 4.0.1 (2021-10-11)
 * (Apollon77) Adjust call headers
 
 ### 4.0.0 (2021-10-11)
