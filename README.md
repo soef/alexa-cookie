@@ -45,8 +45,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-
-### __WORK IN PROGRESS__
+### 4.0.0 (2021-10-11)
 * IMPORTANT: Node.js 10 support is dropped, supports LTS versions of Node.js starting with 12.x
 * (Apollon77) Add support to get macDms with relevant data from the device registration process to use in push connection.
 * (adn77) Update Login Flow to use match to most current Alexa App flow using code auth
