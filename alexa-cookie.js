@@ -583,6 +583,8 @@ function AlexaCookie() {
                         loginData.localCookie = resData.cookie;
                         loginData.csrf = resData.csrf;
                         delete loginData.accessToken;
+                        delete loginData.authorization_code;
+                        delete loginData.verifier;
                         _options.logger && _options.logger('Final Registration Result: ' + JSON.stringify(loginData));
                         callback && callback(null, loginData);
                     });
