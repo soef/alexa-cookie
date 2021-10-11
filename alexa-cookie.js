@@ -530,7 +530,6 @@ function AlexaCookie() {
                 method: 'GET',
                 headers: {
                     'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.443692.0/iOS/14.8/iPhone',
-                    'x-amzn-alexa-app': 'eyJ2ZXJzaW9uIjoiMS4wIiwiYXBwSWQiOiJhbXpuMS5hcHBsaWNhdGlvbi40NTc4NmVlMDliMDI0YTA4YTY5OGQzMGIwYWQzMTAzNyJ9',
                     'Accept-Language': _options.acceptLanguage,
                     'Accept-Charset': 'utf-8',
                     'Connection': 'keep-alive',
