@@ -1,10 +1,3 @@
-/* jshint -W097 */
-/* jshint -W030 */
-/* jshint strict: false */
-/* jslint node: true */
-/* jslint esversion: 6 */
-"use strict";
-
 /**
  * partly based on Amazon Alexa Remote Control (PLAIN shell)
  * http://blog.loetzimmer.de/2017/10/amazon-alexa-hort-auf-die-shell-echo.html AND on
@@ -57,7 +50,7 @@ function AlexaCookie() {
             }
         }
         Cookie = '';
-        for (let name in cookies) {
+        for (const name in cookies) {
             if (!cookies.hasOwnProperty(name)) continue;
             Cookie += name + '=' + cookies[name] + '; ';
         }
@@ -83,14 +76,14 @@ function AlexaCookie() {
             removeContentLength = true;
         }
 
-        let req = https.request(options, (res) => {
-            let body = "";
+        const req = https.request(options, (res) => {
+            let body = '';
             info.requests.push({options: options, response: res});
 
             if (options.followRedirects !== false && res.statusCode >= 300 && res.statusCode < 400) {
                 _options.logger && _options.logger('Alexa-Cookie: Response (' + res.statusCode + ')' + (res.headers.location ? ' - Redirect to ' + res.headers.location : ''));
                 //options.url = res.headers.location;
-                let u = url.parse(res.headers.location);
+                const u = url.parse(res.headers.location);
                 if (u.host) options.host = u.host;
                 options.path = u.path;
                 options.method = 'GET';
@@ -127,11 +120,11 @@ function AlexaCookie() {
     const getFields = body => {
         body = body.replace(/[\n\r]/g, ' ');
         let re = /^.*?("hidden"\s*name=".*$)/;
-        let ar = re.exec(body);
+        const ar = re.exec(body);
         if (!ar || ar.length < 2) return {};
         let h;
         re = /.*?name="([^"]+)"[\s^\s]*value="([^"]+).*?"/g;
-        let data = {};
+        const data = {};
         while ((h = re.exec(ar[1])) !== null) {
             if (h[1] !== 'rememberMe') {
                 data[h[1]] = h[2];
@@ -164,7 +157,7 @@ function AlexaCookie() {
         }
 
         if (!_options.userAgent) {
-            let platform = os.platform();
+            const platform = os.platform();
             if (platform === 'win32') {
                 _options.userAgent = defaultUserAgent;
             }
@@ -205,7 +198,7 @@ function AlexaCookie() {
 
         function csrfTry() {
             const path = csrfUrls.shift();
-            let options = {
+            const options = {
                 'host': 'alexa.' + _options.amazonPage,
                 'path': path,
                 'method': 'GET',
@@ -223,8 +216,8 @@ function AlexaCookie() {
             _options.logger && _options.logger('Alexa-Cookie: Step 4: get CSRF via ' + path);
             request(options, (error, response) => {
                 cookie = addCookies(cookie, response ? response.headers : null);
-                let ar = /csrf=([^;]+)/.exec(cookie);
-                let csrf = ar ? ar[1] : undefined;
+                const ar = /csrf=([^;]+)/.exec(cookie);
+                const csrf = ar ? ar[1] : undefined;
                 _options.logger && _options.logger('Alexa-Cookie: Result: csrf=' + csrf + ', Cookie=' + cookie);
                 if (!csrf && csrfUrls.length) {
                     csrfTry();
@@ -268,7 +261,7 @@ function AlexaCookie() {
 
         if (!_options.proxyOnly) {
             // get first cookie and write redirection target into referer
-            let options = {
+            const options = {
                 host: 'alexa.' + _options.amazonPage,
                 path: '',
                 method: 'GET',
@@ -288,10 +281,10 @@ function AlexaCookie() {
                     return;
                 }
 
-                let lastRequestOptions = info.requests[info.requests.length - 1].options;
+                const lastRequestOptions = info.requests[info.requests.length - 1].options;
                 // login empty to generate session
                 Cookie = addCookies(Cookie, response.headers);
-                let options = {
+                const options = {
                     host: 'www.' + _options.amazonPage,
                     path: '/ap/signin',
                     method: 'POST',
@@ -322,7 +315,7 @@ function AlexaCookie() {
                     options.path = '/ap/signin';
                     options.method = 'POST';
                     options.headers.Cookie = Cookie = addCookies(Cookie, response.headers);
-                    let ar = options.headers.Cookie.match(/session-id=([^;]+)/);
+                    const ar = options.headers.Cookie.match(/session-id=([^;]+)/);
                     options.headers.Referer = `https://www.${_options.amazonPage}/ap/signin/${ar[1]}`;
                     options.body = getFields(body);
                     options.body.email = email || '';
@@ -336,7 +329,7 @@ function AlexaCookie() {
                             return;
                         }
 
-                        let lastRequestOptions = info.requests[info.requests.length - 1].options;
+                        const lastRequestOptions = info.requests[info.requests.length - 1].options;
 
                         // check whether the login has been successful or exit otherwise
                         if (!lastRequestOptions.host.startsWith('alexa') || !lastRequestOptions.path.endsWith('.html')) {
@@ -422,64 +415,64 @@ function AlexaCookie() {
          */
 
         const registerData = {
-            "requested_extensions": [
-                "device_info",
-                "customer_info"
+            'requested_extensions': [
+                'device_info',
+                'customer_info'
             ],
-            "cookies": {
-                "website_cookies": [
+            'cookies': {
+                'website_cookies': [
                     /*{
                         "Value": cookies["session-id-time"],
                         "Name": "session-id-time"
                     }*/
                 ],
-                "domain": "." + _options.baseAmazonPage
+                'domain': '.' + _options.baseAmazonPage
             },
-            "registration_data": {
-                "domain": "Device",
-                "app_version": "2.2.443692.0",
-                "device_type": "A2IVLV5VM2W81",
-                "device_name": "%FIRST_NAME%\u0027s%DUPE_STRATEGY_1ST%ioBroker Alexa2",
-                "os_version": "14.8",
-                "device_serial": deviceSerial,
-                "device_model": "iPhone",
-                "app_name": "ioBroker Alexa2",
-                "software_version": "1"
+            'registration_data': {
+                'domain': 'Device',
+                'app_version': '2.2.443692.0',
+                'device_type': 'A2IVLV5VM2W81',
+                'device_name': '%FIRST_NAME%\u0027s%DUPE_STRATEGY_1ST%ioBroker Alexa2',
+                'os_version': '14.8',
+                'device_serial': deviceSerial,
+                'device_model': 'iPhone',
+                'app_name': 'ioBroker Alexa2',
+                'software_version': '1'
             },
-            "auth_data": {
+            'auth_data': {
                 // Filled below
             },
-            "user_context_map": {
-                "frc": cookies.frc
+            'user_context_map': {
+                'frc': cookies.frc
             },
-            "requested_token_type": [
-                "bearer",
-                "mac_dms",
-                "website_cookies"
+            'requested_token_type': [
+                'bearer',
+                'mac_dms',
+                'website_cookies'
             ]
         };
         if (loginData.accessToken) {
             registerData.auth_data = {
-                "access_token": loginData.accessToken
+                'access_token': loginData.accessToken
             };
         } else if (loginData.authorization_code && loginData.verifier) {
             registerData.auth_data = {
-                "client_id" : loginData.deviceId,
-                "authorization_code" : loginData.authorization_code,
-                "code_verifier" : loginData.verifier,
-                "code_algorithm" : "SHA-256",
-                "client_domain" : "DeviceLegacy"
+                'client_id' : loginData.deviceId,
+                'authorization_code' : loginData.authorization_code,
+                'code_verifier' : loginData.verifier,
+                'code_algorithm' : 'SHA-256',
+                'client_domain' : 'DeviceLegacy'
             };
         }
-        for (let key in cookies) {
+        for (const key in cookies) {
             if (!cookies.hasOwnProperty(key)) continue;
             registerData.cookies.website_cookies.push({
-                "Value": cookies[key],
-                "Name": key
+                'Value': cookies[key],
+                'Name': key
             });
         }
 
-        let options = {
+        const options = {
             host: 'api.' + _options.baseAmazonPage,
             path: '/auth/register',
             method: 'POST',
@@ -524,7 +517,7 @@ function AlexaCookie() {
                 Get Amazon Marketplace Country
             */
 
-            let options = {
+            const options = {
                 host: 'alexa.' + _options.baseAmazonPage,
                 path: '/api/users/me?platform=ios&version=2.2.443692.0',
                 method: 'GET',
@@ -611,7 +604,7 @@ function AlexaCookie() {
             'app_name': 'Amazon Alexa',
             'di.os.version': '11.4.1'
         };
-        let options = {
+        const options = {
             host: 'www.' + amazonPage,
             path: '/ap/exchangetoken',
             method: 'POST',
@@ -665,7 +658,7 @@ function AlexaCookie() {
 
             });
             let localCookie = '';
-            for (let name in cookies) {
+            for (const name in cookies) {
                 if (!cookies.hasOwnProperty(name)) continue;
                 localCookie += name + '=' + cookies[name] + '; ';
             }
@@ -693,21 +686,21 @@ function AlexaCookie() {
         initConfig();
 
         const refreshData = {
-            "app_name": "ioBroker Alexa2",
-            "app_version": "2.2.443692.0",
-            "di.sdk.version": "6.10.0",
-            "source_token": _options.formerRegistrationData.refreshToken,
-            "package_name": "com.amazon.echo",
-            "di.hw.version": "iPhone",
-            "platform": "iOS",
-            "requested_token_type": "access_token",
-            "source_token_type": "refresh_token",
-            "di.os.name": "iOS",
-            "di.os.version": "14.8",
-            "current_version": "6.10.0"
+            'app_name': 'ioBroker Alexa2',
+            'app_version': '2.2.443692.0',
+            'di.sdk.version': '6.10.0',
+            'source_token': _options.formerRegistrationData.refreshToken,
+            'package_name': 'com.amazon.echo',
+            'di.hw.version': 'iPhone',
+            'platform': 'iOS',
+            'requested_token_type': 'access_token',
+            'source_token_type': 'refresh_token',
+            'di.os.name': 'iOS',
+            'di.os.version': '14.8',
+            'current_version': '6.10.0'
         };
 
-        let options = {
+        const options = {
             host: 'api.' + _options.baseAmazonPage,
             path: '/auth/token',
             method: 'POST',
