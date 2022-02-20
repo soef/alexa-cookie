@@ -21,17 +21,17 @@
     "layla.amazon.de"
   ],
   "dependencies": {
-    "cookie": "^0.4.1",
-    "express": "^4.17.2",
-    "http-proxy-middleware": "^2.0.1",
+    "cookie": "^0.4.2",
+    "express": "^4.17.3",
+    "http-proxy-middleware": "^2.0.3",
     "http-proxy-response-rewrite": "^0.0.1",
     "https": "^1.0.0",
     "querystring": "^0.2.1"
   },
   "devDependencies": {
-    "@alcalzone/release-script": "^3.5.0",
-    "@alcalzone/release-script-plugin-license": "^3.4.1",
-    "eslint": "^8.2.0"
+    "@alcalzone/release-script": "^3.5.2",
+    "@alcalzone/release-script-plugin-license": "^3.5.0",
+    "eslint": "^8.9.0"
   },
   "repository": {
     "type": "git",
