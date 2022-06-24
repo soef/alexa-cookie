@@ -6,6 +6,10 @@
 
 Library to generate/retrieve a cookie including a csrf for alexa remote
 
+## Disclaimer
+**All product and company names or logos are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them or any associated subsidiaries! This personal project is maintained in spare time and has no business goal.**
+**ALEXA is a trademark of AMAZON TECHNOLOGIES, INC.**
+
 ## Description
 This library can be used to get the cookies needed to access Amazon Alexa services from outside. It authenticates with Amazon and gathers all needed details. These details are returned in the callback.
 If the automatic authentication fails (which is more common case in the meantime because of security checks from amazon like a needed Captcha or because you enabled two factor authentication) the library can also setup a proxy server to allow the manual login and will catch the cookie by itself. Using this proxy you can enter needed 2FA codes or solve captchas and still do not need to trick around to get the cookie.
