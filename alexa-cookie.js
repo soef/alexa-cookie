@@ -553,7 +553,7 @@ function AlexaCookie() {
                 } else if (error && (!_options || !_options.amazonPage)) {
                     callback && callback(error, null);
                     return;
-                } else if (error && !_options.formerRegistrationData.amazonPage && _options.amazonPage) {
+                } else if (error && (!_options.formerRegistrationData || !_options.formerRegistrationData.amazonPage) && _options.amazonPage) {
                     _options.logger && _options.logger('Continue with externally set amazonPage: ' + _options.amazonPage);
                 } else if (error) {
                     _options.logger && _options.logger('Ignore error while getting user data and amazonPage because previously set amazonPage is available');
