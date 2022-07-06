@@ -49,8 +49,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-
-### __WORK IN PROGRESS__
+### 4.0.3 (2022-07-06)
 * (Apollon77) Update some request meta data to match current Alexa Apps
 
 ### 4.0.2 (2022-06-30)
