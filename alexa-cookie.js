@@ -430,10 +430,10 @@ function AlexaCookie() {
             },
             'registration_data': {
                 'domain': 'Device',
-                'app_version': '2.2.443692.0',
+                'app_version': '2.2.483723.0',
                 'device_type': 'A2IVLV5VM2W81',
                 'device_name': '%FIRST_NAME%\u0027s%DUPE_STRATEGY_1ST%ioBroker Alexa2',
-                'os_version': '14.8',
+                'os_version': '15.5',
                 'device_serial': deviceSerial,
                 'device_model': 'iPhone',
                 'app_name': 'ioBroker Alexa2',
@@ -464,8 +464,7 @@ function AlexaCookie() {
                 'client_domain' : 'DeviceLegacy'
             };
         }
-        for (const key in cookies) {
-            if (!cookies.hasOwnProperty(key)) continue;
+        for (const key of Object.keys(cookies)) {
             registerData.cookies.website_cookies.push({
                 'Value': cookies[key],
                 'Name': key
@@ -477,7 +476,7 @@ function AlexaCookie() {
             path: '/auth/register',
             method: 'POST',
             headers: {
-                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.443692.0/iOS/14.8/iPhone',
+                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
                 'Accept-Language': _options.acceptLanguage,
                 'Accept-Charset': 'utf-8',
                 'Connection': 'keep-alive',
@@ -519,10 +518,10 @@ function AlexaCookie() {
 
             const options = {
                 host: 'alexa.' + _options.baseAmazonPage,
-                path: '/api/users/me?platform=ios&version=2.2.443692.0',
+                path: '/api/users/me?platform=ios&version=2.2.483723.0',
                 method: 'GET',
                 headers: {
-                    'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.443692.0/iOS/14.8/iPhone',
+                    'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
                     'Accept-Language': _options.acceptLanguage,
                     'Accept-Charset': 'utf-8',
                     'Connection': 'keep-alive',
@@ -593,7 +592,7 @@ function AlexaCookie() {
 
         const exchangeParams = {
             'di.os.name': 'iOS',
-            'app_version': '2.2.443692.0',
+            'app_version': '2.2.483723.0',
             'domain': '.' + amazonPage,
             'source_token': refreshToken,
             'requested_token_type': 'auth_cookies',
@@ -609,7 +608,7 @@ function AlexaCookie() {
             path: '/ap/exchangetoken',
             method: 'POST',
             headers: {
-                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.443692.0/iOS/14.8/iPhone',
+                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
                 'Accept-Language': _options.acceptLanguage,
                 'Accept-Charset': 'utf-8',
                 'Connection': 'keep-alive',
@@ -658,8 +657,7 @@ function AlexaCookie() {
 
             });
             let localCookie = '';
-            for (const name in cookies) {
-                if (!cookies.hasOwnProperty(name)) continue;
+            for (const name of Object.keys(cookies)) {
                 localCookie += name + '=' + cookies[name] + '; ';
             }
             localCookie = localCookie.replace(/[; ]*$/, '');
@@ -687,7 +685,7 @@ function AlexaCookie() {
 
         const refreshData = {
             'app_name': 'ioBroker Alexa2',
-            'app_version': '2.2.443692.0',
+            'app_version': '2.2.483723.0',
             'di.sdk.version': '6.10.0',
             'source_token': _options.formerRegistrationData.refreshToken,
             'package_name': 'com.amazon.echo',
@@ -705,7 +703,7 @@ function AlexaCookie() {
             path: '/auth/token',
             method: 'POST',
             headers: {
-                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.443692.0/iOS/14.8/iPhone',
+                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
                 'Accept-Language': _options.acceptLanguage,
                 'Accept-Charset': 'utf-8',
                 'Connection': 'keep-alive',
