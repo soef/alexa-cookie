@@ -49,7 +49,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-### __WORK IN PROGRESS__
+### 4.1.0 (2022-07-18)
 * (Apollon77) Allow to overwrite the used App-Name for the Amazon App Registration.
 * (Apollon77) Include the used app name also in the response
 
