@@ -18,6 +18,10 @@ const defaultUserAgentLinux = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.3
 //const defaultUserAgentMacOs = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36';
 const defaultAcceptLanguage = 'de-DE';
 
+const apiCallVersion = '2.2.483723.0';
+const apiCallUserAgent = 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone';
+const defaultAppName = 'ioBroker Alexa2';
+
 const csrfOptions = [
     '/api/language',
     '/spa/index.html',
@@ -50,8 +54,7 @@ function AlexaCookie() {
             }
         }
         Cookie = '';
-        for (const name in cookies) {
-            if (!cookies.hasOwnProperty(name)) continue;
+        for (const name of Object.keys(cookies)) {
             Cookie += name + '=' + cookies[name] + '; ';
         }
         Cookie = Cookie.replace(/[; ]*$/, '');
@@ -142,6 +145,9 @@ function AlexaCookie() {
         _options.baseAmazonPage = _options.baseAmazonPage || 'amazon.com';
         _options.logger && _options.logger('Alexa-Cookie: Use as Base-Amazon-URL: ' + _options.baseAmazonPage);
 
+        _options.deviceAppName = _options.deviceAppName || defaultAppName;
+        _options.logger && _options.logger('Alexa-Cookie: Use as Device-App-Name: ' + _options.deviceAppName);
+
         if (!_options.baseAmazonPageHandle && _options.baseAmazonPageHandle !== '') {
             const amazonDomain = _options.baseAmazonPage.substr(_options.baseAmazonPage.lastIndexOf('.') + 1);
             if (amazonDomain === 'jp') {
@@ -204,7 +210,7 @@ function AlexaCookie() {
                 'method': 'GET',
                 'headers': {
                     'DNT': '1',
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36',
+                    'User-Agent': _options.userAgent,
                     'Connection': 'keep-alive',
                     'Referer': 'https://alexa.' + _options.amazonPage + '/spa/index.html',
                     'Cookie': cookie,
@@ -390,9 +396,14 @@ function AlexaCookie() {
         }
     };
 
+    this.getDeviceAppName = () => {
+        return _options.deviceAppName || defaultAppName;
+    };
 
     const handleTokenRegistration = (_options, loginData, callback) => {
         _options.logger && _options.logger('Handle token registration Start: ' + JSON.stringify(loginData));
+
+        loginData.deviceAppName = _options.deviceAppName;
 
         let deviceSerial;
         if (!_options.formerRegistrationData || !_options.formerRegistrationData.deviceSerial) {
@@ -430,13 +441,13 @@ function AlexaCookie() {
             },
             'registration_data': {
                 'domain': 'Device',
-                'app_version': '2.2.483723.0',
+                'app_version': apiCallVersion,
                 'device_type': 'A2IVLV5VM2W81',
                 'device_name': '%FIRST_NAME%\u0027s%DUPE_STRATEGY_1ST%ioBroker Alexa2',
                 'os_version': '15.5',
                 'device_serial': deviceSerial,
                 'device_model': 'iPhone',
-                'app_name': 'ioBroker Alexa2',
+                'app_name': _options.deviceAppName,
                 'software_version': '1'
             },
             'auth_data': {
@@ -476,7 +487,7 @@ function AlexaCookie() {
             path: '/auth/register',
             method: 'POST',
             headers: {
-                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
+                'User-Agent': apiCallUserAgent,
                 'Accept-Language': _options.acceptLanguage,
                 'Accept-Charset': 'utf-8',
                 'Connection': 'keep-alive',
@@ -518,10 +529,10 @@ function AlexaCookie() {
 
             const options = {
                 host: 'alexa.' + _options.baseAmazonPage,
-                path: '/api/users/me?platform=ios&version=2.2.483723.0',
+                path: '/api/users/me?platform=ios&version=' + apiCallVersion,
                 method: 'GET',
                 headers: {
-                    'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
+                    'User-Agent': apiCallUserAgent,
                     'Accept-Language': _options.acceptLanguage,
                     'Accept-Charset': 'utf-8',
                     'Connection': 'keep-alive',
@@ -592,7 +603,7 @@ function AlexaCookie() {
 
         const exchangeParams = {
             'di.os.name': 'iOS',
-            'app_version': '2.2.483723.0',
+            'app_version': apiCallVersion,
             'domain': '.' + amazonPage,
             'source_token': refreshToken,
             'requested_token_type': 'auth_cookies',
@@ -608,7 +619,7 @@ function AlexaCookie() {
             path: '/ap/exchangetoken',
             method: 'POST',
             headers: {
-                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
+                'User-Agent': apiCallUserAgent,
                 'Accept-Language': _options.acceptLanguage,
                 'Accept-Charset': 'utf-8',
                 'Connection': 'keep-alive',
@@ -685,7 +696,7 @@ function AlexaCookie() {
 
         const refreshData = {
             'app_name': 'ioBroker Alexa2',
-            'app_version': '2.2.483723.0',
+            'app_version': apiCallVersion,
             'di.sdk.version': '6.10.0',
             'source_token': _options.formerRegistrationData.refreshToken,
             'package_name': 'com.amazon.echo',
@@ -703,7 +714,7 @@ function AlexaCookie() {
             path: '/auth/token',
             method: 'POST',
             headers: {
-                'User-Agent': 'AmazonWebView/Amazon Alexa/2.2.483723.0/iOS/15.5/iPhone',
+                'User-Agent': apiCallUserAgent,
                 'Accept-Language': _options.acceptLanguage,
                 'Accept-Charset': 'utf-8',
                 'Connection': 'keep-alive',
