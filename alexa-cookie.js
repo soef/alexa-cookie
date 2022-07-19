@@ -397,7 +397,7 @@ function AlexaCookie() {
     };
 
     this.getDeviceAppName = () => {
-        return _options.deviceAppName || defaultAppName;
+        return (_options && _options.deviceAppName) || defaultAppName;
     };
 
     const handleTokenRegistration = (_options, loginData, callback) => {

@@ -49,6 +49,10 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
+
+### __WORK IN PROGRESS__
+* (Apollon77) Prevent crash case
+
 ### 4.1.1 (2022-07-18)
 * (Apollon77/bbindreiter) Update used User-Agent for some requests
 
