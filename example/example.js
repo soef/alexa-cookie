@@ -17,7 +17,7 @@ const config = {
     proxyPort: 3456,           // optional: use this port for the proxy, default is 0 means random port is selected
     proxyListenBind: '0.0.0.0',// optional: set this to bind the proxy to a special IP, default is '0.0.0.0'
     proxyLogLevel: 'info',     // optional: Loglevel of Proxy, default 'warn'
-    baseAmazonPage: 'amazon.com', // optional: Change the Proxy Amazon Page - all "western countries" directly use amazon.com! Change to amazon.co.jp for Japan
+    baseAmazonPage: 'amazon.com', // optional: Change the Proxy Amazon Page - all "western countries" directly use amazon.com including australia! Change to amazon.co.jp for Japan
     amazonPageProxyLanguage: 'de_DE', // optional: language to be used for the Amazon Sign-in page the proxy calls. default is "de_DE")
     deviceAppName: '...',       // optional: name of the device app name which will be registered with Amazon, leave empty to use a default one
     formerDataStorePath: '...', // optional: overwrite path where some of the formerRegistrationData are persisted to optimize against Amazon security measures
