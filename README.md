@@ -49,8 +49,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-
-### __WORK IN PROGRESS__
+### 4.1.3 (2022-08-03)
 * (Apollon77) Fix device registration and token exchange in other regions
 * (Apollon77) Use the chosen App name also for refreshing of tokens
 * (Apollon77) General updates
