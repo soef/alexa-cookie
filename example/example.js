@@ -21,7 +21,8 @@ const config = {
     amazonPageProxyLanguage: 'de_DE', // optional: language to be used for the Amazon Sign-in page the proxy calls. default is "de_DE")
     deviceAppName: '...',       // optional: name of the device app name which will be registered with Amazon, leave empty to use a default one
     formerDataStorePath: '...', // optional: overwrite path where some of the formerRegistrationData are persisted to optimize against Amazon security measures
-    formerRegistrationData: { ... } // optional/preferred: provide the result object from subsequent proxy usages here and some generated data will be reused for next proxy call too
+    formerRegistrationData: { ... }, // optional/preferred: provide the result object from subsequent proxy usages here and some generated data will be reused for next proxy call too
+    proxyCloseWindowHTML: '...' //  optional: use in order to override the default html displayed when the proxy window can be closed, default is '<b>Amazon Alexa Cookie successfully retrieved. You can close the browser.</b>'
 };
 
 

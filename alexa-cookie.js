@@ -16,6 +16,7 @@ const defaultAmazonPage = 'amazon.de';
 const defaultUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36';
 const defaultUserAgentLinux = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36';
 //const defaultUserAgentMacOs = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36';
+const defaultProxyCloseWindowHTML = '<b>Amazon Alexa Cookie successfully retrieved. You can close the browser.</b>';
 const defaultAcceptLanguage = 'de-DE';
 
 const apiCallVersion = '2.2.485407.0';
@@ -177,8 +178,11 @@ function AlexaCookie() {
         _options.logger && _options.logger(`Alexa-Cookie: Use as User-Agent: ${_options.userAgent}`);
 
         _options.acceptLanguage = _options.acceptLanguage || defaultAcceptLanguage;
+
         _options.logger && _options.logger(`Alexa-Cookie: Use as Accept-Language: ${_options.acceptLanguage}`);
 
+        _options.proxyCloseWindowHTML = _options.proxyCloseWindowHTML || defaultProxyCloseWindowHTML;
+        
         if (_options.setupProxy && !_options.proxyOwnIp) {
             _options.logger && _options.logger('Alexa-Cookie: Own-IP Setting missing for Proxy. Disabling!');
             _options.setupProxy = false;
