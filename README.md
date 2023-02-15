@@ -50,7 +50,7 @@ Thank you for that work.
 
 ## Changelog:
 
-### 4.1.4 (2023-02-15)
+### __WORK IN PROGRESS__
 * (Hive) Adds the ability to alter the close proxy message
 
 ### 4.1.3 (2022-08-03)
