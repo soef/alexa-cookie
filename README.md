@@ -49,8 +49,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-
-### __WORK IN PROGRESS__
+### 4.2.0 (2023-08-08)
 * (Hive) Adds the ability to alter the close proxy message
 
 ### 4.1.3 (2022-08-03)
