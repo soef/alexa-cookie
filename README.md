@@ -42,6 +42,9 @@ Please use the new method "refreshAlexaCookie" to refresh the cookie data. It ta
 
 Since 4.0.0 of this library a new key called "macDms" is also returned when cookies are generated or refreshed. This is (right now Oct 2021) needed to use the Push Connection (alexa-remote library). Better strt also persisting this field, might be needed more later on. 
 
+## Troubleshooting
+If you still use the SMS based 2FA flow then this might now work. Please update the 2fa method in the amazon settings to the current process.
+
 ## Thanks:
 A big thanks go to soef for the initial version of this library and to many other community users to support in finding out what Amazon changes here and there.
 
