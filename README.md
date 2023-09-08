@@ -52,8 +52,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-
-### __WORK IN PROGRESS__
+### 5.0.0 (2023-09-08)
 * IMPORTANT: Node.js 16 is now required minimum Node.js version!
 * (Apollon77) Enhance registration process by also registering the app capabilities to allow usage of new HTTP/2 push connection
 
