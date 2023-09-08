@@ -19,8 +19,8 @@ const defaultUserAgentLinux = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.3
 const defaultProxyCloseWindowHTML = '<b>Amazon Alexa Cookie successfully retrieved. You can close the browser.</b>';
 const defaultAcceptLanguage = 'de-DE';
 
-const apiCallVersion = '2.2.485407.0';
-const apiCallUserAgent = 'AmazonWebView/Amazon Alexa/2.2.485407.0/iOS/15.5/iPhone';
+const apiCallVersion = '2.2.556530.0';
+const apiCallUserAgent = 'AmazonWebView/Amazon Alexa/2.2.556530.0/iOS/16.6/iPhone';
 const defaultAppName = 'ioBroker Alexa2';
 
 const csrfOptions = [
@@ -182,7 +182,7 @@ function AlexaCookie() {
         _options.logger && _options.logger(`Alexa-Cookie: Use as Accept-Language: ${_options.acceptLanguage}`);
 
         _options.proxyCloseWindowHTML = _options.proxyCloseWindowHTML || defaultProxyCloseWindowHTML;
-        
+
         if (_options.setupProxy && !_options.proxyOwnIp) {
             _options.logger && _options.logger('Alexa-Cookie: Own-IP Setting missing for Proxy. Disabling!');
             _options.setupProxy = false;
@@ -435,12 +435,7 @@ function AlexaCookie() {
                 'customer_info'
             ],
             'cookies': {
-                'website_cookies': [
-                    /*{
-                        "Value": cookies["session-id-time"],
-                        "Name": "session-id-time"
-                    }*/
-                ],
+                'website_cookies': [],
                 'domain': `.${_options.baseAmazonPage}`
             },
             'registration_data': {
@@ -448,7 +443,7 @@ function AlexaCookie() {
                 'app_version': apiCallVersion,
                 'device_type': 'A2IVLV5VM2W81',
                 'device_name': '%FIRST_NAME%\u0027s%DUPE_STRATEGY_1ST%ioBroker Alexa2',
-                'os_version': '15.5',
+                'os_version': '16.6',
                 'device_serial': deviceSerial,
                 'device_model': 'iPhone',
                 'app_name': _options.deviceAppName,
@@ -524,6 +519,7 @@ function AlexaCookie() {
             }
             Cookie = addCookies(Cookie, response.headers);
             loginData.refreshToken = body.response.success.tokens.bearer.refresh_token;
+            const accessToken = body.response.success.tokens.bearer.access_token;
             loginData.tokenDate = Date.now();
             loginData.macDms = body.response.success.tokens.mac_dms;
 
@@ -535,75 +531,107 @@ function AlexaCookie() {
                 Cookie = addCookies(Cookie, {'set-cookie': newCookies});
             }
 
-            /*
-                Get Amazon Marketplace Country
-            */
+            registerTokenCapabilities(accessToken, () => {
+                /*
+                    Get Amazon Marketplace Country
+                */
 
-            const options = {
-                host: `alexa.${_options.baseAmazonPage}`,
-                path: `/api/users/me?platform=ios&version=${apiCallVersion}`,
-                method: 'GET',
-                headers: {
-                    'User-Agent': apiCallUserAgent,
-                    'Accept-Language': _options.acceptLanguage,
-                    'Accept-Charset': 'utf-8',
-                    'Connection': 'keep-alive',
-                    'Accept': 'application/json',
-                    'Cookie': Cookie
-                }
-            };
-            _options.logger && _options.logger('Alexa-Cookie: Get User data');
-            _options.logger && _options.logger(JSON.stringify(options));
-            request(options, (error, response, body) => {
-                if (!error) {
-                    try {
-                        if (typeof body !== 'object') body = JSON.parse(body);
-                    } catch (err) {
-                        _options.logger && _options.logger(`Get User data Response: ${JSON.stringify(body)}`);
-                        callback && callback(err, null);
-                        return;
+                const options = {
+                    host: `alexa.${_options.baseAmazonPage}`,
+                    path: `/api/users/me?platform=ios&version=${apiCallVersion}`,
+                    method: 'GET',
+                    headers: {
+                        'User-Agent': apiCallUserAgent,
+                        'Accept-Language': _options.acceptLanguage,
+                        'Accept-Charset': 'utf-8',
+                        'Connection': 'keep-alive',
+                        'Accept': 'application/json',
+                        'Cookie': Cookie
                     }
-                    _options.logger && _options.logger(`Get User data Response: ${JSON.stringify(body)}`);
-
-                    Cookie = addCookies(Cookie, response.headers);
-
-                    if (body.marketPlaceDomainName) {
-                        const pos = body.marketPlaceDomainName.indexOf('.');
-                        if (pos !== -1) _options.amazonPage = body.marketPlaceDomainName.substr(pos + 1);
-                    }
-                    loginData.amazonPage = _options.amazonPage;
-                } else if (error && (!_options || !_options.amazonPage)) {
-                    callback && callback(error, null);
-                    return;
-                } else if (error && (!_options.formerRegistrationData || !_options.formerRegistrationData.amazonPage) && _options.amazonPage) {
-                    _options.logger && _options.logger(`Continue with externally set amazonPage: ${_options.amazonPage}`);
-                } else if (error) {
-                    _options.logger && _options.logger('Ignore error while getting user data and amazonPage because previously set amazonPage is available');
-                }
-
-                loginData.loginCookie = Cookie;
-
-                getLocalCookies(loginData.amazonPage, loginData.refreshToken, (err, localCookie) => {
-                    if (err) {
-                        callback && callback(err, null);
-                    }
-
-                    loginData.localCookie = localCookie;
-                    getCSRFFromCookies(loginData.localCookie, _options, (err, resData) => {
-                        if (err) {
-                            callback && callback(new Error(`Error getting csrf for ${loginData.amazonPage}`), null);
+                };
+                _options.logger && _options.logger('Alexa-Cookie: Get User data');
+                _options.logger && _options.logger(JSON.stringify(options));
+                request(options, (error, response, body) => {
+                    if (!error) {
+                        try {
+                            if (typeof body !== 'object') body = JSON.parse(body);
+                        } catch (err) {
+                            _options.logger && _options.logger(`Get User data Response: ${JSON.stringify(body)}`);
+                            callback && callback(err, null);
                             return;
                         }
-                        loginData.localCookie = resData.cookie;
-                        loginData.csrf = resData.csrf;
-                        delete loginData.accessToken;
-                        delete loginData.authorization_code;
-                        delete loginData.verifier;
-                        _options.logger && _options.logger(`Final Registration Result: ${JSON.stringify(loginData)}`);
-                        callback && callback(null, loginData);
+                        _options.logger && _options.logger(`Get User data Response: ${JSON.stringify(body)}`);
+
+                        Cookie = addCookies(Cookie, response.headers);
+
+                        if (body.marketPlaceDomainName) {
+                            const pos = body.marketPlaceDomainName.indexOf('.');
+                            if (pos !== -1) _options.amazonPage = body.marketPlaceDomainName.substr(pos + 1);
+                        }
+                        loginData.amazonPage = _options.amazonPage;
+                    } else if (error && (!_options || !_options.amazonPage)) {
+                        callback && callback(error, null);
+                        return;
+                    } else if (error && (!_options.formerRegistrationData || !_options.formerRegistrationData.amazonPage) && _options.amazonPage) {
+                        _options.logger && _options.logger(`Continue with externally set amazonPage: ${_options.amazonPage}`);
+                    } else if (error) {
+                        _options.logger && _options.logger('Ignore error while getting user data and amazonPage because previously set amazonPage is available');
+                    }
+
+                    loginData.loginCookie = Cookie;
+
+                    getLocalCookies(loginData.amazonPage, loginData.refreshToken, (err, localCookie) => {
+                        if (err) {
+                            callback && callback(err, null);
+                        }
+
+                        loginData.localCookie = localCookie;
+                        getCSRFFromCookies(loginData.localCookie, _options, (err, resData) => {
+                            if (err) {
+                                callback && callback(new Error(`Error getting csrf for ${loginData.amazonPage}`), null);
+                                return;
+                            }
+                            loginData.localCookie = resData.cookie;
+                            loginData.csrf = resData.csrf;
+                            delete loginData.accessToken;
+                            delete loginData.authorization_code;
+                            delete loginData.verifier;
+                            loginData.dataVersion = 2;
+                            _options.logger && _options.logger(`Final Registration Result: ${JSON.stringify(loginData)}`);
+                            callback && callback(null, loginData);
+                        });
                     });
                 });
             });
+        });
+    };
+
+    const registerTokenCapabilities = (accessToken, callback) => {
+        /*
+            Register Capabilities - mainly needed for HTTP/2 push infos
+         */
+        const options = {
+            host: `api.amazonalexa.com`, // How Domains needs to be for other regions? au/jp?
+            path: `/v1/devices/@self/capabilities`,
+            method: 'PUT',
+            headers: {
+                'User-Agent': apiCallUserAgent,
+                'Accept-Language': _options.acceptLanguage,
+                'Accept-Charset': 'utf-8',
+                'Connection': 'keep-alive',
+                'Content-type': 'application/json; charset=UTF-8',
+                'authorization': `Bearer ${accessToken}`,
+            },
+            body: '{"legacyFlags":{"SUPPORTS_COMMS":true,"SUPPORTS_ARBITRATION":true,"SCREEN_WIDTH":1170,"SUPPORTS_SCRUBBING":true,"SPEECH_SYNTH_SUPPORTS_TTS_URLS":false,"SUPPORTS_HOME_AUTOMATION":true,"SUPPORTS_DROPIN_OUTBOUND":true,"FRIENDLY_NAME_TEMPLATE":"VOX","SUPPORTS_SIP_OUTBOUND_CALLING":true,"VOICE_PROFILE_SWITCHING_DISABLED":true,"SUPPORTS_LYRICS_IN_CARD":false,"SUPPORTS_DATAMART_NAMESPACE":"Vox","SUPPORTS_VIDEO_CALLING":true,"SUPPORTS_PFM_CHANGED":true,"SUPPORTS_TARGET_PLATFORM":"TABLET","SUPPORTS_SECURE_LOCKSCREEN":false,"AUDIO_PLAYER_SUPPORTS_TTS_URLS":false,"SUPPORTS_KEYS_IN_HEADER":false,"SUPPORTS_MIXING_BEHAVIOR_FOR_AUDIO_PLAYER":false,"AXON_SUPPORT":true,"SUPPORTS_TTS_SPEECHMARKS":true},"envelopeVersion":"20160207","capabilities":[{"version":"0.1","interface":"CardRenderer","type":"AlexaInterface"},{"interface":"Navigation","type":"AlexaInterface","version":"1.1"},{"type":"AlexaInterface","version":"2.0","interface":"Alexa.Comms.PhoneCallController"},{"type":"AlexaInterface","version":"1.1","interface":"ExternalMediaPlayer"},{"type":"AlexaInterface","interface":"Alerts","configurations":{"maximumAlerts":{"timers":2,"overall":99,"alarms":2}},"version":"1.3"},{"version":"1.0","interface":"Alexa.Display.Window","type":"AlexaInterface","configurations":{"templates":[{"type":"STANDARD","id":"app_window_template","configuration":{"sizes":[{"id":"fullscreen","type":"DISCRETE","value":{"value":{"height":1440,"width":3200},"unit":"PIXEL"}}],"interactionModes":["mobile_mode","auto_mode"]}}]}},{"type":"AlexaInterface","interface":"AccessoryKit","version":"0.1"},{"type":"AlexaInterface","interface":"Alexa.AudioSignal.ActiveNoiseControl","version":"1.0","configurations":{"ambientSoundProcessingModes":[{"name":"ACTIVE_NOISE_CONTROL"},{"name":"PASSTHROUGH"}]}},{"interface":"PlaybackController","type":"AlexaInterface","version":"1.0"},{"version":"1.0","interface":"Speaker","type":"AlexaInterface"},{"version":"1.0","interface":"SpeechSynthesizer","type":"AlexaInterface"},{"version":"1.0","interface":"AudioActivityTracker","type":"AlexaInterface"},{"type":"AlexaInterface","interface":"Alexa.Camera.LiveViewController","version":"1.0"},{"type":"AlexaInterface","version":"1.0","interface":"Alexa.Input.Text"},{"type":"AlexaInterface","interface":"Alexa.PlaybackStateReporter","version":"1.0"},{"version":"1.1","interface":"Geolocation","type":"AlexaInterface"},{"interface":"Alexa.Health.Fitness","version":"1.0","type":"AlexaInterface"},{"interface":"Settings","type":"AlexaInterface","version":"1.0"},{"configurations":{"interactionModes":[{"dialog":"SUPPORTED","interactionDistance":{"value":18,"unit":"INCHES"},"video":"SUPPORTED","keyboard":"SUPPORTED","id":"mobile_mode","uiMode":"MOBILE","touch":"SUPPORTED"},{"video":"UNSUPPORTED","dialog":"SUPPORTED","interactionDistance":{"value":36,"unit":"INCHES"},"uiMode":"AUTO","touch":"SUPPORTED","id":"auto_mode","keyboard":"UNSUPPORTED"}]},"type":"AlexaInterface","interface":"Alexa.InteractionMode","version":"1.0"},{"type":"AlexaInterface","configurations":{"catalogs":[{"type":"IOS_APP_STORE","identifierTypes":["URI_HTTP_SCHEME","URI_CUSTOM_SCHEME"]}]},"version":"0.2","interface":"Alexa.Launcher"},{"interface":"System","version":"1.0","type":"AlexaInterface"},{"interface":"Alexa.IOComponents","type":"AlexaInterface","version":"1.4"},{"type":"AlexaInterface","interface":"Alexa.FavoritesController","version":"1.0"},{"version":"1.0","type":"AlexaInterface","interface":"Alexa.Mobile.Push"},{"type":"AlexaInterface","interface":"InteractionModel","version":"1.1"},{"interface":"Alexa.PlaylistController","type":"AlexaInterface","version":"1.0"},{"interface":"SpeechRecognizer","type":"AlexaInterface","version":"2.1"},{"interface":"AudioPlayer","type":"AlexaInterface","version":"1.3"},{"type":"AlexaInterface","version":"3.1","interface":"Alexa.RTCSessionController"},{"interface":"VisualActivityTracker","version":"1.1","type":"AlexaInterface"},{"interface":"Alexa.PlaybackController","version":"1.0","type":"AlexaInterface"},{"type":"AlexaInterface","interface":"Alexa.SeekController","version":"1.0"},{"interface":"Alexa.Comms.MessagingController","type":"AlexaInterface","version":"1.0"}]}'
+        };
+        _options.logger && _options.logger('Alexa-Cookie: Register capabilities');
+        _options.logger && _options.logger(JSON.stringify(options));
+        request(options, (error, response, body) => {
+            if (error || (response.statusCode !== 204 && response.statusCode !== 200)) {
+                _options.logger && _options.logger('Alexa-Cookie: Could not set capabilities, Push connection might not work!');
+                _options.logger && _options.logger(`Alexa-Cookie: ${JSON.stringify(error)}: ${JSON.stringify(body)}`);
+            }
+            callback && callback();
         });
     };
 
@@ -621,10 +649,9 @@ function AlexaCookie() {
             'requested_token_type': 'auth_cookies',
             'source_token_type': 'refresh_token',
             'di.hw.version': 'iPhone',
-            'di.sdk.version': '6.12.3',
-            'cookies': Buffer.from(`{„cookies“:{".${amazonPage}":[]}}`).toString('base64'),
+            'di.sdk.version': '6.12.4',
             'app_name': _options.deviceAppName || defaultAppName,
-            'di.os.version': '15.5'
+            'di.os.version': '16.6'
         };
         const options = {
             host: `www.${amazonPage}`,
@@ -636,7 +663,9 @@ function AlexaCookie() {
                 'Accept-Charset': 'utf-8',
                 'Connection': 'keep-alive',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Accept': '*/*'
+                'Accept': '*/*',
+                'Cookie': Cookie,
+                'x-amzn-identity-auth-domain': `api.${amazonPage}`
             },
             body: querystring.stringify(exchangeParams, null, null, {
                 encodeURIComponent: encodeURIComponent
@@ -709,7 +738,7 @@ function AlexaCookie() {
         const refreshData = {
             'app_name': _options.deviceAppName || defaultAppName,
             'app_version': apiCallVersion,
-            'di.sdk.version': '6.12.3',
+            'di.sdk.version': '6.12.4',
             'source_token': _options.formerRegistrationData.refreshToken,
             'package_name': 'com.amazon.echo',
             'di.hw.version': 'iPhone',
@@ -717,8 +746,8 @@ function AlexaCookie() {
             'requested_token_type': 'access_token',
             'source_token_type': 'refresh_token',
             'di.os.name': 'iOS',
-            'di.os.version': '15.5',
-            'current_version': '6.12.3'
+            'di.os.version': '16.6',
+            'current_version': '6.12.4'
         };
 
         const options = {
