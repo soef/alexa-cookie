@@ -16,12 +16,18 @@ If the automatic authentication fails (which is more common case in the meantime
 
 Starting with version 2.0 of this library the proxy approach was changed to be more "as the Amazon mobile Apps" which registers a device at Amazon and uses OAuth tokens to handle the automatic refresh of the cookies afterwards. This should work seamless. A cookie is valid for 14 days, so it is preferred to refresh the cookie after 5-13 days (please report if it should be shorter).
 
+## Troubleshooting for getting the cookie and tokens initially
+If you still use the E-Mail or SMS based 2FA flow then this might not work. Please update the 2FA/OTP method in the amazon settings to the current process.
+
+If you open the Proxy URL from a mobile device where also the Alexa App is installed on it might be that it do not work because Amazon might open the Alexa App. So please use a device or PC where the Alexa App is not installed
+
+If you see a page that tells you that "alexa.amazon.xx is deprecated" and you should use the alexa app and with a QR code on it when you enter the Proxy URL" then this means that you call the proxy URL ith a different IP/Domainname then you entered in the "proxy own IP" settings or you adjusted the IP shown in the Adapter configuration. The "proxy own IP" setting **needs to** match the IP/Domainname you use to call the proxy URL!
+
 ## Example:
 See example folder!
 
 * **example.js** shows how to use the library to initially get a cookie
 * **refresh.js** shown how to use the library to refresh the cookies
-
 
 ## Usage 
 Special note for callback return for parameter result:
@@ -41,9 +47,6 @@ If you not do this a new device is created each time the proxy is used which can
 Please use the new method "refreshAlexaCookie" to refresh the cookie data. It takes the same options object as the other method and requires the key "formerRegistrationData". It returns an updated object will all data as above. Please also store this and provide for subsequent calls!
 
 Since 4.0.0 of this library a new key called "macDms" is also returned when cookies are generated or refreshed. This is (right now Oct 2021) needed to use the Push Connection (alexa-remote library). Better strt also persisting this field, might be needed more later on. 
-
-## Troubleshooting
-If you still use the SMS based 2FA flow then this might now work. Please update the 2fa method in the amazon settings to the current process.
 
 ## Thanks:
 A big thanks go to soef for the initial version of this library and to many other community users to support in finding out what Amazon changes here and there.
