@@ -386,7 +386,7 @@ function AlexaCookie() {
                 if (!_options.proxyPort || _options.proxyPort === 0) {
                     _options.proxyPort = proxyServer.address().port;
                 }
-                const errMessage = `You can try to get the cookie manually by opening http://${_options.proxyOwnIp}:${_options.proxyPort}/ with your browser.`;
+                const errMessage = `Please open http://${_options.proxyOwnIp}:${_options.proxyPort}/ with your browser and login to Amazon. The cookie will be output here after successfull login.`;
                 callback && callback(new Error(errMessage), null);
             });
         }
@@ -442,7 +442,7 @@ function AlexaCookie() {
                 'domain': 'Device',
                 'app_version': apiCallVersion,
                 'device_type': 'A2IVLV5VM2W81',
-                'device_name': '%FIRST_NAME%\u0027s%DUPE_STRATEGY_1ST%ioBroker Alexa2',
+                'device_name': '%FIRST_NAME%\u0027s%DUPE_STRATEGY_1ST%' + _options.deviceAppName,
                 'os_version': '16.6',
                 'device_serial': deviceSerial,
                 'device_model': 'iPhone',
@@ -554,7 +554,7 @@ function AlexaCookie() {
                 request(options, (error, response, body) => {
                     if (!error) {
                         try {
-                            if (typeof body !== 'object') body = JSON.parse(body);
+                            if (body != '') body = JSON.parse(body);
                         } catch (err) {
                             _options.logger && _options.logger(`Get User data Response: ${JSON.stringify(body)}`);
                             callback && callback(err, null);
