@@ -554,7 +554,7 @@ function AlexaCookie() {
                 request(options, (error, response, body) => {
                     if (!error) {
                         try {
-                            if (body != '') body = JSON.parse(body);
+                            if (typeof body !== 'object') body = JSON.parse(body);
                         } catch (err) {
                             _options.logger && _options.logger(`Get User data Response: ${JSON.stringify(body)}`);
                             callback && callback(err, null);
