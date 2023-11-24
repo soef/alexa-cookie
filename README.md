@@ -21,7 +21,7 @@ If you still use the E-Mail or SMS based 2FA flow then this might not work. Plea
 
 If you open the Proxy URL from a mobile device where also the Alexa App is installed on it might be that it do not work because Amazon might open the Alexa App. So please use a device or PC where the Alexa App is not installed
 
-If you see a page that tells you that "alexa.amazon.xx is deprecated" and you should use the alexa app and with a QR code on it when you enter the Proxy URL" then this means that you call the proxy URL ith a different IP/Domainname then you entered in the "proxy own IP" settings or you adjusted the IP shown in the Adapter configuration. The "proxy own IP" setting **needs to** match the IP/Domainname you use to call the proxy URL!
+If you see a page that tells you that "alexa.amazon.xx is deprecated" and you should use the alexa app and with a QR code on it when you enter the Proxy URL" then this means that you call the proxy URL with a different IP/Domainname then the one you entered in the "proxy own IP" settings or you adjusted the IP shown in the Adapter configuration. The "proxy own IP" setting **needs to** match the IP/Domainname you use to call the proxy URL!
 
 ## Example:
 See example folder!
@@ -55,6 +55,10 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
+### __WORK IN PROGRESS__
+* (adn77) make registered device name configurable by Appname
+* (Apollon77) Prevent some error/crash cases
+
 ### 5.0.0 (2023-09-08)
 * IMPORTANT: Node.js 16 is now required minimum Node.js version!
 * (Apollon77) Enhance registration process by also registering the app capabilities to allow usage of new HTTP/2 push connection
