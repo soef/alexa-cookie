@@ -55,7 +55,7 @@ Partly based on [Amazon Alexa Remote Control](http://blog.loetzimmer.de/2017/10/
 Thank you for that work.
 
 ## Changelog:
-### __WORK IN PROGRESS__
+### 5.0.1 (2023-11-24)
 * (adn77) make registered device name configurable by Appname
 * (Apollon77) Prevent some error/crash cases
 
