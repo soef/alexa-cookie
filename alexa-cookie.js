@@ -350,7 +350,7 @@ function AlexaCookie() {
                             }
                             if (_options.setupProxy) {
                                 if (proxyServer) {
-                                    errMessage += ` You can try to get the cookie manually by opening http://${_options.proxyOwnIp}:${_options.proxyPort}/ with your browser.`;
+                                    errMessage += ` Please open http://${_options.proxyOwnIp}:${_options.proxyPort}/ with your browser and login to Amazon. The cookie will be output here after successfull login.`;
                                 } else {
                                     amazonProxy.initAmazonProxy(_options, prepareResult,
                                         (server) => {
@@ -361,7 +361,7 @@ function AlexaCookie() {
                                             if (!_options.proxyPort || _options.proxyPort === 0) {
                                                 _options.proxyPort = proxyServer.address().port;
                                             }
-                                            errMessage += ` You can try to get the cookie manually by opening http://${_options.proxyOwnIp}:${_options.proxyPort}/ with your browser.`;
+                                            errMessage += ` Please open http://${_options.proxyOwnIp}:${_options.proxyPort}/ with your browser and login to Amazon. The cookie will be output here after successfull login.`;
                                             callback && callback(new Error(errMessage), null);
                                         }
                                     );
