@@ -1,18 +1,18 @@
 {
-  "name": "alexa-cookie",
-  "version": "0.0.20",
+  "name": "alexa-cookie2",
+  "version": "5.0.2",
   "description": "Generate Cookie and CSRF for Alexa Remote",
   "author": {
-    "name": "soef",
-    "email": "soef@gmx.net"
+    "name": "Apollon77",
+    "email": "ingo@fischer-ka.de"
   },
   "contributors": [
     {
-      "name": "soef",
-      "email": "soef@gmx.net"
+      "name": "Apollon77",
+      "email": "ingo@fischer-ka.de"
     }
   ],
-  "homepage": "https://github.com/soef/alexa-cookie",
+  "homepage": "https://github.com/Apollon77/alexa-cookie",
   "license": "MIT",
   "keywords": [
     "alexa",
@@ -21,22 +21,30 @@
     "layla.amazon.de"
   ],
   "dependencies": {
+    "cookie": "^0.6.0",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "http-proxy-response-rewrite": "^0.0.1",
     "https": "^1.0.0",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.1"
   },
   "devDependencies": {
-    "mocha": "^2.3.4",
-    "chai": "^3.4.1"
-  },
-  "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "@alcalzone/release-script": "^3.7.0",
+    "@alcalzone/release-script-plugin-license": "^3.7.0",
+    "eslint": "^8.56.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/soef/alexa-cookie.git"
+    "url": "git+https://github.com/Apollon77/alexa-cookie.git"
   },
   "bugs": {
-    "url": "https://github.com/soef/alexa-cookie/issues"
+    "url": "https://github.com/Apollon77/alexa-cookie/issues"
+  },
+  "scripts": {
+    "release": "release-script"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "main": "alexa-cookie.js",
   "readmeFilename": "readme.md"
